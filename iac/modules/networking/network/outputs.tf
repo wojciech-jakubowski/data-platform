@@ -8,11 +8,11 @@ output "output" {
       id = azurerm_subnet.main_subnet.id
       address_prefix = azurerm_subnet.main_subnet.address_prefixes[0]
     } 
-    db_public_subnet_id = {
+    db_public_subnet = {
       id = azurerm_subnet.db_public_subnet.id
       address_prefix = azurerm_subnet.db_public_subnet.address_prefixes[0]
     } 
-    db_private_subnet_id = {
+    db_private_subnet = {
       id = azurerm_subnet.db_private_subnet.id
       address_prefix = azurerm_subnet.db_private_subnet.address_prefixes[0]
     } 
