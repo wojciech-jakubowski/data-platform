@@ -1,4 +1,4 @@
 module "network" {
-    source = "./network"
-    config = var.config
+  source = "./network"
+  config = var.config
 }

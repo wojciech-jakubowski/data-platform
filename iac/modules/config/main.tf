@@ -1,19 +1,19 @@
 locals {
   config = {
-    namePrefix         = "${var.clientName}-${var.projectName}-${var.env}"
-    dashlessNamePrefix = "${var.clientName}${var.projectName}${var.env}"
-    resource_group_name = "${var.clientName}-${var.projectName}-${var.env}-rg"
-    location           = var.location
-    tenant_id          = var.tenant_id
-    env                = var.env
-    networkAddress = {
-      firstOctet  = 192
-      secondOctet = 168
-      thirdOctet  = 0
+    name_prefix          = "${var.clientName}-${var.projectName}-${var.env}"
+    dashless_name_prefix = "${var.clientName}${var.projectName}${var.env}"
+    resource_group_name  = "${var.clientName}-${var.projectName}-${var.env}-rg"
+    location             = var.location
+    tenant_id            = var.tenant_id
+    env                  = var.env
+    network_address = {
+      first_octet  = 192
+      second_octet = 168
+      third_octet  = 0
     }
     tags = {
-      tagOne = "tagOneValue"
-      tagTwo = "tagTwoValue"
+      tag_one = "tagOneValue"
+      tag_two = "tagTwoValue"
     }
   }
 }

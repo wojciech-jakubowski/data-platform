@@ -38,3 +38,9 @@ module "networking" {
   source = "./modules/networking"
   config = module.config.output
 }
+
+module "monitoring" {
+  source     = "./modules/monitoring"
+  config     = module.config.output
+  networking = module.networking.output
+}
