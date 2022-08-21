@@ -4,6 +4,7 @@ locals {
     dashless_name_prefix = "${var.clientName}${var.projectName}${var.env}"
     resource_group_name  = "${var.clientName}-${var.projectName}-${var.env}-rg"
     location             = var.location
+    deployer_object_id   = var.deployer_object_id
     tenant_id            = var.tenant_id
     env                  = var.env
     network_address = {

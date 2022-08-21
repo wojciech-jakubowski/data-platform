@@ -1,5 +1,7 @@
 output "output" {
   value = {
-    private_dns_zones = module.networking.output.private_dns_zones
-  } 
+    private_endpoints_config = concat(
+                                module.monitoring.output.private_endpoints_config,
+                                module.key_vault.output.private_endpoints_config)
+  }
 }

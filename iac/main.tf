@@ -19,14 +19,14 @@ provider "azurerm" {
 data "azurerm_client_config" "current" {
 }
 
-
 module "config" {
-  source      = "./modules/config"
-  clientName  = var.clientName
-  projectName = var.projectName
-  location    = var.location
-  tenant_id   = data.azurerm_client_config.current.tenant_id
-  env         = var.env
+  source             = "./modules/config"
+  clientName         = var.clientName
+  projectName        = var.projectName
+  location           = var.location
+  deployer_object_id = data.azurerm_client_config.current.object_id
+  tenant_id          = data.azurerm_client_config.current.tenant_id
+  env                = var.env
 }
 
 module "resource_group" {
@@ -43,4 +43,11 @@ module "monitoring" {
   source     = "./modules/monitoring"
   config     = module.config.output
   networking = module.networking.output
+}
+
+module "key_vault" {
+  source     = "./modules/key_vault"
+  config     = module.config.output
+  networking = module.networking.output
+  monitoring = module.monitoring.output
 }
