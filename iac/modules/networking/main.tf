@@ -6,8 +6,8 @@ module "network" {
 locals {
   shared_private_dns_zones = {
     kv : "privatelink.vaultcore.azure.net"
-    dl : "privatelink.dfs.core.windows.net"
-    bl : "blob.core.windows.net"
+    dfs : "privatelink.dfs.core.windows.net"
+    blob : "blob.core.windows.net"
   }
   shared_private_dns_zones_rg = var.config.resource_group_name
 

@@ -16,3 +16,26 @@ resource "azurerm_storage_account" "sa" {
     ip_rules       = [var.config.deployer_ip_address]
   }
 }
+
+module "sa_blob_private_endpoint" {
+  source               = "../../networking/private_endpoint"
+  config               = var.config
+  networking           = var.networking
+  parent_resource_id   = azurerm_storage_account.sa.id
+  parent_resource_name = "${var.config.name_prefix}-${var.name}-sa"
+  name_suffix          = "blob"
+  endpoint_type        = "blob"
+  private_dns_zones    = [var.networking.private_dns_zones.blob]
+}
+
+module "sa_dfs_private_endpoint" {
+  source               = "../../networking/private_endpoint"
+  config               = var.config
+  networking           = var.networking
+  parent_resource_id   = azurerm_storage_account.sa.id
+  parent_resource_name = "${var.config.name_prefix}-${var.name}-sa"
+  name_suffix          = "dfs"
+  endpoint_type        = "dfs"
+  private_dns_zones    = [var.networking.private_dns_zones.dfs]
+  count                = var.is_hns_enabled ? 1 : 0
+}
