@@ -24,10 +24,12 @@ resource "azurerm_private_dns_zone" "shared_private_dns_zone" {
   for_each            = local.shared_private_dns_zones
   name                = each.value
   resource_group_name = local.shared_private_dns_zones_rg
+  tags                = var.config.tags
 }
 
 resource "azurerm_private_dns_zone" "internal_private_dns_zone" {
   for_each            = local.internal_private_dns_zones
   name                = each.value
   resource_group_name = local.internal_private_dns_zones_rg
+  tags                = var.config.tags
 }
