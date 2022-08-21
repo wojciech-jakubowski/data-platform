@@ -47,14 +47,34 @@ resource "azurerm_storage_container" "container" {
   container_access_type = "private"
 }
 
-# module "sa_diagnostic_settings" {
-#   source = "../../monitoring/diagnostic_settings"
-#   config = var.config
-#   target_resource_id = azurerm_storage_account.sa.id
-#   target_resource_name = azurerm_storage_account.sa.name
-#   log_analytics_workspace_id = var.monitoring.log_analytics_workspace_id
-#   logs = [
-
-#   ]
-
-# }
+module "sa_diagnostic_settings" {
+  source                     = "../../monitoring/diagnostic_settings"
+  config                     = var.config
+  target_resource_id         = "${azurerm_storage_account.sa.id}/blobServices/default"
+  target_resource_name       = azurerm_storage_account.sa.name
+  log_analytics_workspace_id = var.monitoring.log_analytics_workspace_id
+  logs = {
+    "StorageRead" = {
+      enabled                  = true
+      retention_policy_enabled = true
+      retention_policy_days    = 0
+    }
+    "StorageWrite" = {
+      enabled                  = true
+      retention_policy_enabled = true
+      retention_policy_days    = 0
+    }
+    "StorageDelete" = {
+      enabled                  = true
+      retention_policy_enabled = true
+      retention_policy_days    = 0
+    }
+  }
+  metrics = {
+    "Transaction" = {
+      enabled                  = true
+      retention_policy_enabled = true
+      retention_policy_days    = 0
+    }
+  }
+}
