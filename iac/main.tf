@@ -51,3 +51,12 @@ module "key_vault" {
   networking = module.networking.output
   monitoring = module.monitoring.output
 }
+
+module "private_endpoints" {
+  source     = "./modules/private_endpoints"
+  config     = module.config.output
+  networking = module.networking.output
+  private_endpoints_config = concat(
+    module.monitoring.output.private_endpoints_config,
+  module.key_vault.output.private_endpoints_config)
+}

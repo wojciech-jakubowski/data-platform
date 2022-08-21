@@ -5,6 +5,7 @@ resource "azurerm_key_vault" "key_vault" {
   tenant_id                  = var.config.tenant_id
   soft_delete_retention_days = 7
   sku_name                   = "standard"
+  tags                       = var.config.tags
 
   access_policy {
     tenant_id = var.config.tenant_id
