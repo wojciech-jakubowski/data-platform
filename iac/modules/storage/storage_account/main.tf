@@ -71,6 +71,11 @@ module "sa_diagnostic_settings" {
     }
   }
   metrics = {
+    "Capacity" = {
+      enabled                  = true
+      retention_policy_enabled = true
+      retention_policy_days    = 0
+    }
     "Transaction" = {
       enabled                  = true
       retention_policy_enabled = true
