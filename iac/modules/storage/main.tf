@@ -1,6 +1,9 @@
-resource "azurerm_key_vault_secret" "sample_secret" {
-  name         = "sample-secret"
-  value        = "szechuan"
-  key_vault_id = var.key_vault.key_vault_id
-  tags         = var.config.tags
+module "dl" {
+  source         = "./storage_account"
+  config         = var.config
+  networking     = var.networking
+  monitoring     = var.monitoring
+  name           = "dl"
+  is_hns_enabled = true
+  containers     = ["raw", "conformed", "prepared"]
 }

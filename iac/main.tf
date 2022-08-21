@@ -57,5 +57,4 @@ module "storage" {
   config     = module.config.output
   networking = module.networking.output
   monitoring = module.monitoring.output
-  key_vault  = module.key_vault.output
 }
