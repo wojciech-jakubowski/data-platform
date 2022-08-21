@@ -52,11 +52,19 @@ module "key_vault" {
   monitoring = module.monitoring.output
 }
 
-module "private_endpoints" {
-  source     = "./modules/private_endpoints"
-  config     = module.config.output
+module "storage" {
+  source = "./modules/storage"
+  config = module.config.output
   networking = module.networking.output
-  private_endpoints_config = concat(
-    module.monitoring.output.private_endpoints_config,
-  module.key_vault.output.private_endpoints_config)
+  monitoring = module.monitoring.output
+  key_vault = module.key_vault.output
 }
+
+# module "private_endpoints" {
+#   source     = "./modules/private_endpoints"
+#   config     = module.config.output
+#   networking = module.networking.output
+#   private_endpoints_config = concat(
+#     module.monitoring.output.private_endpoints_config,
+#   module.key_vault.output.private_endpoints_config)
+# }
