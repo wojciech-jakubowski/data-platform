@@ -40,3 +40,30 @@ module "kv_private_endpoint" {
   endpoint_type        = "vault"
   private_dns_zones    = [var.networking.private_dns_zones.kv]
 }
+
+module "kv_diagnostic_settings" {
+  source                     = "../monitoring/diagnostic_settings"
+  config                     = var.config
+  target_resource_id         = azurerm_key_vault.key_vault.id
+  target_resource_name       = azurerm_key_vault.key_vault.name
+  log_analytics_workspace_id = var.monitoring.log_analytics_workspace_id
+  logs = {
+    "AuditEvent" = {
+      enabled                  = true
+      retention_policy_enabled = true
+      retention_policy_days    = 0
+    }
+    "AzurePolicyEvaluationDetails" = {
+      enabled                  = true
+      retention_policy_enabled = true
+      retention_policy_days    = 0
+    }
+  }
+  metrics = {
+    "AllMetrics" = {
+      enabled                  = true
+      retention_policy_enabled = true
+      retention_policy_days    = 0
+    }
+  }
+}
