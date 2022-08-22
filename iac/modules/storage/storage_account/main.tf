@@ -31,12 +31,12 @@ module "sa_diagnostic_settings" {
   target_resource_name       = azurerm_storage_account.sa.name
   log_analytics_workspace_id = var.monitoring.log_analytics_workspace.id
   logs = {
-    "StorageRead" = true
-    "StorageWrite" = true
+    "StorageRead"   = true
+    "StorageWrite"  = true
     "StorageDelete" = true
   }
   metrics = {
-    "Capacity" = true
+    "Capacity"    = true
     "Transaction" = true
   }
 }

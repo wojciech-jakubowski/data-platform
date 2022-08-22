@@ -15,9 +15,9 @@ terraform {
 provider "azurerm" {
   features {
     resource_group {
-        prevent_deletion_if_contains_resources = false
-      }
+      prevent_deletion_if_contains_resources = false
     }
+  }
 }
 
 data "azurerm_client_config" "current" {
@@ -39,8 +39,8 @@ module "resource_group" {
 }
 
 module "monitoring" {
-  source     = "./modules/monitoring"
-  config     = module.config.output
+  source = "./modules/monitoring"
+  config = module.config.output
 }
 
 module "key_vault" {
@@ -63,8 +63,8 @@ module "secrets" {
 }
 
 module "networking" {
-  source = "./modules/networking"
-  config = module.config.output
+  source     = "./modules/networking"
+  config     = module.config.output
   key_vault  = module.key_vault.output
   monitoring = module.monitoring.output
   storage    = module.storage.output

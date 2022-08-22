@@ -1,5 +1,5 @@
 output "output" {
   value = {
-    vnet              = module.network.vnet
+    vnet = module.network.vnet
   }
 }
