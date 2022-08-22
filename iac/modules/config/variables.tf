@@ -1,8 +1,8 @@
-variable "clientName" {
+variable "client_name" {
   type = string
 }
 
-variable "projectName" {
+variable "project_name" {
   type = string
 }
 

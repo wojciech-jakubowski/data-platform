@@ -25,8 +25,8 @@ data "azurerm_client_config" "current" {
 
 module "config" {
   source             = "./modules/config"
-  clientName         = var.clientName
-  projectName        = var.projectName
+  client_name        = var.clientName
+  project_name       = var.projectName
   location           = var.location
   deployer_object_id = data.azurerm_client_config.current.object_id
   tenant_id          = data.azurerm_client_config.current.tenant_id
@@ -36,17 +36,6 @@ module "config" {
 module "resource_group" {
   source = "./modules/resource_group"
   config = module.config.output
-}
-
-module "monitoring" {
-  source    = "./modules/monitoring"
-  config    = module.config.output
-  key_vault = module.key_vault.output
-  storage   = module.storage.output
-
-  depends_on = [
-    module.resource_group
-  ]
 }
 
 module "key_vault" {
@@ -67,11 +56,34 @@ module "storage" {
   ]
 }
 
+module "synapse" {
+  source  = "./modules/synapse"
+  config  = module.config.output
+  storage = module.storage.output
+
+  depends_on = [
+    module.resource_group
+  ]
+}
+
 module "secrets" {
   source     = "./modules/secrets"
   key_vault  = module.key_vault.output
   monitoring = module.monitoring.output
   storage    = module.storage.output
+  synapse    = module.synapse.output
+
+  depends_on = [
+    module.resource_group
+  ]
+}
+
+module "monitoring" {
+  source    = "./modules/monitoring"
+  config    = module.config.output
+  key_vault = module.key_vault.output
+  storage   = module.storage.output
+  synapse   = module.synapse.output
 
   depends_on = [
     module.resource_group

@@ -1,5 +1,8 @@
 locals {
-  secrets = merge(var.monitoring.app_insights.secrets, var.storage.dl_storage_account.secrets)
+  secrets = merge(var.monitoring.app_insights.secrets,
+    var.storage.dl_storage_account.secrets,
+    var.synapse.secrets,
+  )
 }
 
 resource "azurerm_key_vault_secret" "secrets" {

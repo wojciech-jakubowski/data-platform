@@ -3,5 +3,5 @@ module "dl" {
   config         = var.config
   name           = "dl"
   is_hns_enabled = true
-  containers     = ["raw", "conformed", "prepared"]
+  containers     = ["synapse", "raw", "conformed", "prepared"]
 }

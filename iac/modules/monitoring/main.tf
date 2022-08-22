@@ -49,3 +49,20 @@ module "sa_dl_diagnostic_settings" {
     "Transaction" = true
   }
 }
+
+module "synapse_diagnostic_settings" {
+  source                     = "./diagnostic_settings"
+  config                     = var.config
+  target_resource_id         = var.synapse.workspace_id
+  target_resource_name       = var.synapse.workspace_name
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.lgw.id
+  logs = {
+    "BuiltinSqlReqsEnded"     = true
+    "GatewayApiRequests"      = true
+    "IntegrationActivityRuns" = true
+    "IntegrationPipelineRuns" = true
+    "IntegrationTriggerRuns"  = true
+    "SynapseRbacOperations"   = true
+  }
+  metrics = {}
+}
