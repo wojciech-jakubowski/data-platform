@@ -63,6 +63,9 @@ module "synapse_diagnostic_settings" {
     "IntegrationPipelineRuns" = true
     "IntegrationTriggerRuns"  = true
     "SynapseRbacOperations"   = true
+    "SQLSecurityAuditEvents"  = true
   }
-  metrics = {}
+  metrics = {
+    "AllMetrics"              = true
+  }
 }

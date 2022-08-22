@@ -69,9 +69,11 @@ module "synapse" {
 module "secrets" {
   source     = "./modules/secrets"
   key_vault  = module.key_vault.output
-  monitoring = module.monitoring.output
-  storage    = module.storage.output
-  synapse    = module.synapse.output
+  secrets    = merge(
+    module.monitoring.output.secrets,
+    module.storage.output.secrets,
+    module.synapse.output.secrets
+  )
 
   depends_on = [
     module.resource_group

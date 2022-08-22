@@ -7,10 +7,10 @@ output "output" {
       blob_endpoint  = module.dl.storage_account.blob_endpoint
       dfs_endpoint   = module.dl.storage_account.dfs_endpoint
       containers     = module.dl.storage_account.containers
-      secrets = {
+    }
+    secrets = {
         "DLStorageAccountKey" = module.dl.storage_account.key
         "DLConnectionString"  = module.dl.storage_account.connection_string
       }
-    }
   }
 }
