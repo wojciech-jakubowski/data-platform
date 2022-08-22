@@ -18,6 +18,6 @@ locals {
       tag_two = "tagTwoValue"
     }
 
-    deploy_networking = true
+    deploy_networking = false
   }
 }
