@@ -46,7 +46,7 @@ module "kv_diagnostic_settings" {
   config                     = var.config
   target_resource_id         = azurerm_key_vault.key_vault.id
   target_resource_name       = azurerm_key_vault.key_vault.name
-  log_analytics_workspace_id = var.monitoring.log_analytics_workspace_id
+  log_analytics_workspace_id = var.monitoring.log_analytics_workspace.id
   logs = {
     "AuditEvent" = {
       enabled                  = true

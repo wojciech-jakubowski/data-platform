@@ -58,3 +58,10 @@ module "storage" {
   networking = module.networking.output
   monitoring = module.monitoring.output
 }
+
+module "secrets" {
+  source     = "./modules/secrets"
+  key_vault  = module.key_vault.output
+  monitoring = module.monitoring.output
+  storage    = module.storage.output
+}
