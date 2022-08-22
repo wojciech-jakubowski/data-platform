@@ -17,5 +17,7 @@ locals {
       tag_one = "tagOneValue"
       tag_two = "tagTwoValue"
     }
+
+    deploy_networking = true
   }
 }

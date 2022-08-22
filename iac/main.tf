@@ -39,20 +39,32 @@ module "resource_group" {
 }
 
 module "monitoring" {
-  source = "./modules/monitoring"
-  config = module.config.output
+  source    = "./modules/monitoring"
+  config    = module.config.output
+  key_vault = module.key_vault.output
+  storage   = module.storage.output
+
+  depends_on = [
+    module.resource_group
+  ]
 }
 
 module "key_vault" {
-  source     = "./modules/key_vault"
-  config     = module.config.output
-  monitoring = module.monitoring.output
+  source = "./modules/key_vault"
+  config = module.config.output
+
+  depends_on = [
+    module.resource_group
+  ]
 }
 
 module "storage" {
-  source     = "./modules/storage"
-  config     = module.config.output
-  monitoring = module.monitoring.output
+  source = "./modules/storage"
+  config = module.config.output
+
+  depends_on = [
+    module.resource_group
+  ]
 }
 
 module "secrets" {
@@ -60,6 +72,10 @@ module "secrets" {
   key_vault  = module.key_vault.output
   monitoring = module.monitoring.output
   storage    = module.storage.output
+
+  depends_on = [
+    module.resource_group
+  ]
 }
 
 module "networking" {
@@ -68,4 +84,9 @@ module "networking" {
   key_vault  = module.key_vault.output
   monitoring = module.monitoring.output
   storage    = module.storage.output
+
+  depends_on = [
+    module.resource_group
+  ]
+  count = module.config.output.deploy_networking ? 1 : 0
 }
