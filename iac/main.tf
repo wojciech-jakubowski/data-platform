@@ -38,33 +38,33 @@ module "resource_group" {
   config = module.config.output
 }
 
-module "networking" {
-  source = "./modules/networking"
-  config = module.config.output
-}
-
 module "monitoring" {
   source     = "./modules/monitoring"
   config     = module.config.output
-  networking = module.networking.output
 }
 
 module "key_vault" {
   source     = "./modules/key_vault"
   config     = module.config.output
-  networking = module.networking.output
   monitoring = module.monitoring.output
 }
 
 module "storage" {
   source     = "./modules/storage"
   config     = module.config.output
-  networking = module.networking.output
   monitoring = module.monitoring.output
 }
 
 module "secrets" {
   source     = "./modules/secrets"
+  key_vault  = module.key_vault.output
+  monitoring = module.monitoring.output
+  storage    = module.storage.output
+}
+
+module "networking" {
+  source = "./modules/networking"
+  config = module.config.output
   key_vault  = module.key_vault.output
   monitoring = module.monitoring.output
   storage    = module.storage.output

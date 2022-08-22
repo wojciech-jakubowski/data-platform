@@ -1,10 +1,12 @@
 output "output" {
   value = {
     dl_storage_account = {
-      id = module.dl.output.storage_account_id
+      id = module.dl.storage_account.id
+      name = module.dl.storage_account.name
+      is_hns_enabled = module.dl.storage_account.is_hns_enabled
       secrets = {
-        "DLStorageAccountKey" = module.dl.output.account_key
-        "DLConnectionString"  = module.dl.output.connection_string
+        "DLStorageAccountKey" = module.dl.storage_account.key
+        "DLConnectionString"  = module.dl.storage_account.connection_string
       }
     }
   }

@@ -1,9 +1,8 @@
-output "output" {
+output "vnet" {
   value = {
-    vnet = {
-      id             = azurerm_virtual_network.vnet.id
-      address_prefix = azurerm_virtual_network.vnet.address_space[0]
-    }
+    id             = azurerm_virtual_network.vnet.id
+    address_prefix = azurerm_virtual_network.vnet.address_space[0]
+
     main_subnet = {
       id             = azurerm_subnet.main_subnet.id
       address_prefix = azurerm_subnet.main_subnet.address_prefixes[0]

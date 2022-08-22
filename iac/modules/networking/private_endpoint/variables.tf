@@ -1,5 +1,5 @@
 variable "config" {}
-variable "networking" {}
+variable "subnet_id" {}
 variable "parent_resource_id" {}
 variable "parent_resource_name" {}
 variable "name_suffix" {

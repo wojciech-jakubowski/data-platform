@@ -31,16 +31,6 @@ resource "azurerm_key_vault" "key_vault" {
   }
 }
 
-module "kv_private_endpoint" {
-  source               = "../networking/private_endpoint"
-  config               = var.config
-  networking           = var.networking
-  parent_resource_id   = azurerm_key_vault.key_vault.id
-  parent_resource_name = azurerm_key_vault.key_vault.name
-  endpoint_type        = "vault"
-  private_dns_zones    = [var.networking.private_dns_zones.kv]
-}
-
 module "kv_diagnostic_settings" {
   source                     = "../monitoring/diagnostic_settings"
   config                     = var.config

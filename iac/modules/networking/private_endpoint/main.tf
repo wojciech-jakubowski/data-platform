@@ -7,7 +7,7 @@ resource "azurerm_private_endpoint" "pe" {
   name                = local.private_endpoint_name
   location            = var.config.location
   resource_group_name = var.config.resource_group_name
-  subnet_id           = var.networking.main_subnet.id
+  subnet_id           = var.subnet_id
   private_dns_zone_group {
     name                 = "${local.private_endpoint_name}-pe-dns-zone-group"
     private_dns_zone_ids = var.private_dns_zones
