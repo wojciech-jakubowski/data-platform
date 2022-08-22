@@ -7,10 +7,10 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
     for_each = var.logs
     content {
       category = log.key
-      enabled  = log.value.enabled
+      enabled  = log.value
       retention_policy {
-        enabled = log.value.retention_policy_enabled
-        days    = log.value.retention_policy_days
+        enabled = false
+        days    = 0
       }
     }
   }
@@ -19,10 +19,10 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
     for_each = var.metrics
     content {
       category = metric.key
-      enabled  = metric.value.enabled
+      enabled  = metric.value
       retention_policy {
-        enabled = metric.value.retention_policy_enabled
-        days    = metric.value.retention_policy_days
+        enabled = false
+        days    = 0
       }
     }
   }

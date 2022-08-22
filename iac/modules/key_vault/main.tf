@@ -48,22 +48,10 @@ module "kv_diagnostic_settings" {
   target_resource_name       = azurerm_key_vault.key_vault.name
   log_analytics_workspace_id = var.monitoring.log_analytics_workspace.id
   logs = {
-    "AuditEvent" = {
-      enabled                  = true
-      retention_policy_enabled = true
-      retention_policy_days    = 0
-    }
-    "AzurePolicyEvaluationDetails" = {
-      enabled                  = true
-      retention_policy_enabled = true
-      retention_policy_days    = 0
-    }
+    "AuditEvent" = true
+    "AzurePolicyEvaluationDetails" = true
   }
   metrics = {
-    "AllMetrics" = {
-      enabled                  = true
-      retention_policy_enabled = true
-      retention_policy_days    = 0
-    }
+    "AllMetrics" = true
   }
 }

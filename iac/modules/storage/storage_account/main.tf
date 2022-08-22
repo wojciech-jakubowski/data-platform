@@ -54,32 +54,12 @@ module "sa_diagnostic_settings" {
   target_resource_name       = azurerm_storage_account.sa.name
   log_analytics_workspace_id = var.monitoring.log_analytics_workspace.id
   logs = {
-    "StorageRead" = {
-      enabled                  = true
-      retention_policy_enabled = true
-      retention_policy_days    = 0
-    }
-    "StorageWrite" = {
-      enabled                  = true
-      retention_policy_enabled = true
-      retention_policy_days    = 0
-    }
-    "StorageDelete" = {
-      enabled                  = true
-      retention_policy_enabled = true
-      retention_policy_days    = 0
-    }
+    "StorageRead" = true
+    "StorageWrite" = true
+    "StorageDelete" = true
   }
   metrics = {
-    "Capacity" = {
-      enabled                  = true
-      retention_policy_enabled = true
-      retention_policy_days    = 0
-    }
-    "Transaction" = {
-      enabled                  = true
-      retention_policy_enabled = true
-      retention_policy_days    = 0
-    }
+    "Capacity" = true
+    "Transaction" = true
   }
 }
