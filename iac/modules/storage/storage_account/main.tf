@@ -23,3 +23,20 @@ resource "azurerm_storage_container" "container" {
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = "private"
 }
+
+module "diagnostic_settings" {
+  source                     = "../../monitoring/diagnostic_settings"
+  config                     = var.config
+  target_resource_id         = "${azurerm_storage_account.sa.id}/blobServices/default"
+  target_resource_name       = azurerm_storage_account.sa.name
+  log_analytics_workspace_id = var.monitoring.log_analytics_workspace.id
+  logs = {
+    "StorageRead"   = true
+    "StorageWrite"  = true
+    "StorageDelete" = true
+  }
+  metrics = {
+    "Capacity"    = true
+    "Transaction" = true
+  }
+}

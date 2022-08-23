@@ -11,6 +11,7 @@ locals {
 resource "azurerm_synapse_workspace" "workspace" {
   name                                 = "${var.config.name_prefix}-sw"
   resource_group_name                  = var.config.resource_group_name
+  managed_resource_group_name          = "${var.config.client_name}-${var.config.project_name}-${var.config.env}-sw-rg"
   location                             = var.config.location
   storage_data_lake_gen2_filesystem_id = "${var.storage.dl_storage_account.dfs_endpoint}/synapse"
   sql_administrator_login              = local.sql_admin_login
@@ -28,4 +29,24 @@ resource "azurerm_synapse_workspace" "workspace" {
   }
 
   tags = var.config.tags
+}
+
+module "diagnostic_settings" {
+  source                     = "../monitoring/diagnostic_settings"
+  config                     = var.config
+  target_resource_id         = azurerm_synapse_workspace.workspace.id
+  target_resource_name       = azurerm_synapse_workspace.workspace.name
+  log_analytics_workspace_id = var.monitoring.log_analytics_workspace.id
+  logs = {
+    "BuiltinSqlReqsEnded"     = true
+    "GatewayApiRequests"      = true
+    "IntegrationActivityRuns" = true
+    "IntegrationPipelineRuns" = true
+    "IntegrationTriggerRuns"  = true
+    "SynapseRbacOperations"   = true
+    "SQLSecurityAuditEvents"  = true
+  }
+  metrics = {
+    "AllMetrics" = true
+  }
 }

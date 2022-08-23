@@ -33,14 +33,24 @@ module "config" {
   env                = var.env
 }
 
+module "monitoring" {
+  source = "./modules/monitoring"
+  config = module.config.output
+
+  depends_on = [
+    module.resource_group
+  ]
+}
+
 module "resource_group" {
   source = "./modules/resource_group"
   config = module.config.output
 }
 
 module "key_vault" {
-  source = "./modules/key_vault"
-  config = module.config.output
+  source     = "./modules/key_vault"
+  config     = module.config.output
+  monitoring = module.monitoring.output
 
   depends_on = [
     module.resource_group
@@ -48,8 +58,19 @@ module "key_vault" {
 }
 
 module "storage" {
-  source = "./modules/storage"
-  config = module.config.output
+  source     = "./modules/storage"
+  config     = module.config.output
+  monitoring = module.monitoring.output
+
+  depends_on = [
+    module.resource_group
+  ]
+}
+
+module "data_factory" {
+  source     = "./modules/data_factory"
+  config     = module.config.output
+  monitoring = module.monitoring.output
 
   depends_on = [
     module.resource_group
@@ -57,9 +78,20 @@ module "storage" {
 }
 
 module "synapse" {
-  source  = "./modules/synapse"
-  config  = module.config.output
-  storage = module.storage.output
+  source     = "./modules/synapse"
+  config     = module.config.output
+  monitoring = module.monitoring.output
+  storage    = module.storage.output
+
+  depends_on = [
+    module.resource_group
+  ]
+}
+
+module "purview" {
+  source     = "./modules/purview"
+  config     = module.config.output
+  monitoring = module.monitoring.output
 
   depends_on = [
     module.resource_group
@@ -67,25 +99,13 @@ module "synapse" {
 }
 
 module "secrets" {
-  source     = "./modules/secrets"
-  key_vault  = module.key_vault.output
-  secrets    = merge(
+  source    = "./modules/secrets"
+  key_vault = module.key_vault.output
+  secrets = merge(
     module.monitoring.output.secrets,
     module.storage.output.secrets,
     module.synapse.output.secrets
   )
-
-  depends_on = [
-    module.resource_group
-  ]
-}
-
-module "monitoring" {
-  source    = "./modules/monitoring"
-  config    = module.config.output
-  key_vault = module.key_vault.output
-  storage   = module.storage.output
-  synapse   = module.synapse.output
 
   depends_on = [
     module.resource_group

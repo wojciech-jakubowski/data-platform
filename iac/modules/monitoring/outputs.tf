@@ -7,8 +7,8 @@ output "output" {
       id = azurerm_application_insights.ai.id
     }
     secrets = {
-        "AppInsightsKey"              = azurerm_application_insights.ai.instrumentation_key
-        "AppInsightsConnectionString" = azurerm_application_insights.ai.connection_string
-      }
+      "AppInsightsKey"              = azurerm_application_insights.ai.instrumentation_key
+      "AppInsightsConnectionString" = azurerm_application_insights.ai.connection_string
+    }
   }
 }

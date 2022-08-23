@@ -9,8 +9,8 @@ output "output" {
       containers     = module.dl.storage_account.containers
     }
     secrets = {
-        "DLStorageAccountKey" = module.dl.storage_account.key
-        "DLConnectionString"  = module.dl.storage_account.connection_string
-      }
+      "DLStorageAccountKey" = module.dl.storage_account.key
+      "DLConnectionString"  = module.dl.storage_account.connection_string
+    }
   }
 }
