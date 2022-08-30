@@ -13,7 +13,7 @@ resource "azurerm_synapse_workspace" "workspace" {
   resource_group_name                  = var.config.resource_group_name
   managed_resource_group_name          = "${var.config.client_name}-${var.config.project_name}-${var.config.env}-sw-rg"
   location                             = var.config.location
-  storage_data_lake_gen2_filesystem_id = "${var.storage.dl_storage_account.dfs_endpoint}/synapse"
+  storage_data_lake_gen2_filesystem_id = "${var.storage.dl.dfs_endpoint}/synapse"
   sql_administrator_login              = local.sql_admin_login
   sql_administrator_login_password     = random_password.password.result
   managed_virtual_network_enabled      = true

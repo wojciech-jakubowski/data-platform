@@ -9,6 +9,10 @@ resource "azurerm_storage_account" "sa" {
   is_hns_enabled                    = var.is_hns_enabled
   infrastructure_encryption_enabled = true
   tags                              = var.config.tags
+  identity {
+   type = "SystemAssigned" 
+  }
+
 
   network_rules {
     bypass         = ["AzureServices"]

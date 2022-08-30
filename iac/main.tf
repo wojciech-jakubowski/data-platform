@@ -124,3 +124,12 @@ module "networking" {
   ]
   count = module.config.output.deploy_networking ? 1 : 0
 }
+
+module "role_assingments" {
+  source       = "./modules/aad/role_assignments"
+  config       = module.config.output
+  storage      = module.storage.output
+  key_vault    = module.key_vault.output
+  synapse      = module.synapse.output
+  data_factory = module.data_factory.output
+}
