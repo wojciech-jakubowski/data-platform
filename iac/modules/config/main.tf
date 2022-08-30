@@ -19,6 +19,10 @@ locals {
       tag_one = "tagOneValue"
       tag_two = "tagTwoValue"
     }
+    synapse_aad_admin = {
+      login     = "wojciech.jakubowski@outlook.com"
+      object_id = var.deployer_object_id
+    }
 
     deploy_networking = false
   }

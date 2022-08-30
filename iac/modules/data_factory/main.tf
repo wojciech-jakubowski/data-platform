@@ -27,11 +27,12 @@ resource "azurerm_data_factory" "data_factory" {
 }
 
 module "diagnostic_settings" {
-  source                     = "../monitoring/diagnostic_settings"
-  config                     = var.config
-  target_resource_id         = azurerm_data_factory.data_factory.id
-  target_resource_name       = azurerm_data_factory.data_factory.name
-  log_analytics_workspace_id = var.monitoring.log_analytics_workspace.id
+  source                         = "../monitoring/diagnostic_settings"
+  config                         = var.config
+  target_resource_id             = azurerm_data_factory.data_factory.id
+  target_resource_name           = azurerm_data_factory.data_factory.name
+  log_analytics_workspace_id     = var.monitoring.log_analytics_workspace.id
+  log_analytics_destination_type = "Dedicated"
   logs = {
     "ActivityRuns"                        = true
     "PipelineRuns"                        = true

@@ -17,18 +17,33 @@ resource "azurerm_synapse_workspace" "workspace" {
   sql_administrator_login              = local.sql_admin_login
   sql_administrator_login_password     = random_password.password.result
   managed_virtual_network_enabled      = true
+  public_network_access_enabled        = true
 
-  # aad_admin {
-  #   login     = "AzureAD Admin"
-  #   object_id = "00000000-0000-0000-0000-000000000000"
-  #   tenant_id = "00000000-0000-0000-0000-000000000000"
-  # }
+  aad_admin {
+    login     = var.config.synapse_aad_admin.login
+    object_id = var.config.synapse_aad_admin.object_id
+    tenant_id = var.config.tenant_id
+  }
 
   identity {
     type = "SystemAssigned"
   }
 
   tags = var.config.tags
+}
+
+resource "azurerm_synapse_firewall_rule" "allow_azure_services_rule" {
+  name                 = "AllowAllWindowsAzureIps"
+  synapse_workspace_id = azurerm_synapse_workspace.workspace.id
+  start_ip_address     = "0.0.0.0"
+  end_ip_address       = "0.0.0.0"
+}
+
+resource "azurerm_synapse_firewall_rule" "deployer_rule" {
+  name                 = "Deployer"
+  synapse_workspace_id = azurerm_synapse_workspace.workspace.id
+  start_ip_address     = var.config.deployer_ip_address
+  end_ip_address       = var.config.deployer_ip_address
 }
 
 module "diagnostic_settings" {
@@ -44,6 +59,7 @@ module "diagnostic_settings" {
     "IntegrationPipelineRuns" = true
     "IntegrationTriggerRuns"  = true
     "SynapseRbacOperations"   = true
+    "SynapseLinkEvent"        = true
     "SQLSecurityAuditEvents"  = true
   }
   metrics = {

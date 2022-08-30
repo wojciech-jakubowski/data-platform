@@ -1,4 +1,4 @@
 variable "config" {}
 variable "storage" {
-  
+
 }
