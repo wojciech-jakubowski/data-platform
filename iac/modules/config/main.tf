@@ -5,7 +5,7 @@ locals {
     resource_group_name  = "${var.client_name}-${var.project_name}-${var.env}-rg"
     location             = var.location
     deployer_object_id   = var.deployer_object_id
-    deployer_ip_address  = "83.22.158.38"
+    deployer_ip_address  = "83.22.109.144"
     tenant_id            = var.tenant_id
     project_name         = var.project_name
     client_name          = var.client_name

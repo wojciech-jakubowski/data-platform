@@ -88,15 +88,15 @@ module "synapse" {
   ]
 }
 
-module "purview" {
-  source     = "./modules/purview"
-  config     = module.config.output
-  monitoring = module.monitoring.output
+# module "purview" {
+#   source     = "./modules/purview"
+#   config     = module.config.output
+#   monitoring = module.monitoring.output
 
-  depends_on = [
-    module.resource_group
-  ]
-}
+#   depends_on = [
+#     module.resource_group
+#   ]
+# }
 
 module "secrets" {
   source    = "./modules/secrets"
