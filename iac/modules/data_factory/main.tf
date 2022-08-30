@@ -3,7 +3,7 @@ resource "azurerm_data_factory" "data_factory" {
   location                        = var.config.location
   resource_group_name             = var.config.resource_group_name
   managed_virtual_network_enabled = true
-  public_network_enabled          = true
+  public_network_enabled          = false
 
   global_parameter {
     name  = "env"
@@ -33,11 +33,17 @@ module "diagnostic_settings" {
   target_resource_name       = azurerm_data_factory.data_factory.name
   log_analytics_workspace_id = var.monitoring.log_analytics_workspace.id
   logs = {
-    "ActivityRuns"        = true
-    "PipelineRuns"        = true
-    "SandboxActivityRuns" = true
-    "SandboxPipelineRuns" = true
-    "TriggerRuns"         = true
+    "ActivityRuns"                        = true
+    "PipelineRuns"                        = true
+    "SandboxActivityRuns"                 = true
+    "SandboxPipelineRuns"                 = true
+    "TriggerRuns"                         = true
+    "SSISIntegrationRuntimeLogs"          = false
+    "SSISPackageEventMessageContext"      = false
+    "SSISPackageEventMessages"            = false
+    "SSISPackageExecutableStatistics"     = false
+    "SSISPackageExecutionComponentPhases" = false
+    "SSISPackageExecutionDataStatistics"  = false
   }
   metrics = {
     "AllMetrics" = true

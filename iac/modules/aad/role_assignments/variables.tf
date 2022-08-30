@@ -1,0 +1,4 @@
+variable "config" {}
+variable "storage" {
+  
+}
