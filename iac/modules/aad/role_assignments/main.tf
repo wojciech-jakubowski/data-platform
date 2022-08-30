@@ -10,3 +10,18 @@ resource "azurerm_role_assignment" "synapse_on_storage" {
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = var.synapse.workspace.mi_id
 }
+
+#key vault
+resource "azurerm_key_vault_access_policy" "adf_on_kv" {
+  key_vault_id = var.key_vault.key_vault.id
+  tenant_id    = var.config.tenant_id
+  object_id    = var.data_factory.adf.mi_id
+  secret_permissions = ["Get", "List"]
+}
+
+resource "azurerm_key_vault_access_policy" "synapse_on_kv" {
+  key_vault_id = var.key_vault.key_vault.id
+  tenant_id    = var.config.tenant_id
+  object_id    = var.synapse.workspace.mi_id
+  secret_permissions = ["Get", "List"]
+}

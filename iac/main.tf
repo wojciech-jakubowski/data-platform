@@ -116,7 +116,7 @@ module "networking" {
   source     = "./modules/networking"
   config     = module.config.output
   key_vault  = module.key_vault.output
-  monitoring = module.monitoring.output
+  yes = module.monitoring.output
   storage    = module.storage.output
   synapse    = module.synapse.output
 
