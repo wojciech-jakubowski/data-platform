@@ -24,6 +24,6 @@ locals {
       object_id = var.deployer_object_id
     }
 
-    deploy_networking = false
+    deploy_networking = true
   }
 }

@@ -118,6 +118,7 @@ module "networking" {
   key_vault  = module.key_vault.output
   monitoring = module.monitoring.output
   storage    = module.storage.output
+  synapse    = module.synapse.output
 
   depends_on = [
     module.resource_group

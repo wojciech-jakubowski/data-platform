@@ -10,7 +10,7 @@ resource "azurerm_storage_account" "sa" {
   infrastructure_encryption_enabled = true
   tags                              = var.config.tags
   identity {
-   type = "SystemAssigned" 
+    type = "SystemAssigned"
   }
 
 

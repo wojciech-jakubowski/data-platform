@@ -49,8 +49,8 @@ module "sa_dl_blob_private_endpoint" {
   source               = "./private_endpoint"
   config               = var.config
   subnet_id            = module.network.vnet.main_subnet.id
-  parent_resource_id   = var.storage.dl_storage_account.id
-  parent_resource_name = var.storage.dl_storage_account.name
+  parent_resource_id   = var.storage.dl.id
+  parent_resource_name = var.storage.dl.name
   name_suffix          = "blob"
   endpoint_type        = "blob"
   private_dns_zones    = [module.private_dns_zones.zones.blob]
@@ -60,10 +60,50 @@ module "sa_dl_dfs_private_endpoint" {
   source               = "./private_endpoint"
   config               = var.config
   subnet_id            = module.network.vnet.main_subnet.id
-  parent_resource_id   = var.storage.dl_storage_account.id
-  parent_resource_name = var.storage.dl_storage_account.name
+  parent_resource_id   = var.storage.dl.id
+  parent_resource_name = var.storage.dl.name
   name_suffix          = "dfs"
   endpoint_type        = "dfs"
   private_dns_zones    = [module.private_dns_zones.zones.dfs]
-  count                = var.storage.dl_storage_account.is_hns_enabled ? 1 : 0
+  count                = var.storage.dl.is_hns_enabled ? 1 : 0
+}
+
+module "synapse_dev_private_endpoint" {
+  source               = "./private_endpoint"
+  config               = var.config
+  subnet_id            = module.network.vnet.main_subnet.id
+  parent_resource_id   = var.synapse.workspace.id
+  parent_resource_name = var.synapse.workspace.name
+  name_suffix          = "dev"
+  endpoint_type        = "Dev"
+  private_dns_zones    = [module.private_dns_zones.zones.syn_dev]
+}
+
+module "synapse_sql_private_endpoint" {
+  source               = "./private_endpoint"
+  config               = var.config
+  subnet_id            = module.network.vnet.main_subnet.id
+  parent_resource_id   = var.synapse.workspace.id
+  parent_resource_name = var.synapse.workspace.name
+  name_suffix          = "sql"
+  endpoint_type        = "Sql"
+  private_dns_zones    = [module.private_dns_zones.zones.syn_sql]
+}
+
+module "synapse_sql_on_demand_private_endpoint" {
+  source               = "./private_endpoint"
+  config               = var.config
+  subnet_id            = module.network.vnet.main_subnet.id
+  parent_resource_id   = var.synapse.workspace.id
+  parent_resource_name = var.synapse.workspace.name
+  name_suffix          = "sod"
+  endpoint_type        = "SqlOnDemand"
+  private_dns_zones    = [module.private_dns_zones.zones.syn_sql]
+}
+
+module "synapse_private_link_hub" {
+  source              = "./private_link_hub"
+  config              = var.config
+  subnet_id           = module.network.vnet.main_subnet.id
+  private_dns_zone_id = module.private_dns_zones.zones.syn
 }

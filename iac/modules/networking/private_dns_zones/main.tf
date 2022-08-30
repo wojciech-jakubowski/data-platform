@@ -1,18 +1,21 @@
 locals {
-  shared_private_dns_zones = {
+  internal_private_dns_zones = {
     kv : "privatelink.vaultcore.azure.net"
     dfs : "privatelink.dfs.core.windows.net"
     blob : "blob.core.windows.net"
+    syn_sql : "privatelink.sql.azuresynapse.net"
+    syn_dev : "privatelink.dev.azuresynapse.net"
   }
-  shared_private_dns_zones_rg = var.config.resource_group_name
+  internal_private_dns_zones_rg = var.config.resource_group_name
 
-  internal_private_dns_zones = {
+  shared_private_dns_zones = {
     mon : "privatelink.monitor.azure.com"
     ods : "privatelink.ods.opinsights.azure.com"
     oms : "privatelink.oms.opinsights.azure.com"
     asc : "privatelink.agentsvc.azure-automation.net"
+    syn : "privatelink.azuresynapse.net"
   }
-  internal_private_dns_zones_rg = var.config.resource_group_name
+  shared_private_dns_zones_rg = var.config.resource_group_name
 }
 
 resource "azurerm_private_dns_zone" "shared_private_dns_zone" {
