@@ -18,6 +18,7 @@ resource "azurerm_synapse_workspace" "workspace" {
   sql_administrator_login_password     = random_password.password.result
   managed_virtual_network_enabled      = true
   public_network_access_enabled        = true
+  purview_id                           = var.purview != null ? var.purview.purview.id : null
 
   aad_admin {
     login     = var.config.synapse_aad_admin.login

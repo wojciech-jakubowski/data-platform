@@ -77,6 +77,7 @@ module "synapse_dev_private_endpoint" {
   name_suffix          = "dev"
   endpoint_type        = "Dev"
   private_dns_zones    = [module.private_dns_zones.zones.syn_dev]
+  count                = var.synapse != null ? 1 : 0
 }
 
 module "synapse_sql_private_endpoint" {
@@ -88,6 +89,7 @@ module "synapse_sql_private_endpoint" {
   name_suffix          = "sql"
   endpoint_type        = "Sql"
   private_dns_zones    = [module.private_dns_zones.zones.syn_sql]
+  count                = var.synapse != null ? 1 : 0
 }
 
 module "synapse_sql_on_demand_private_endpoint" {
@@ -99,6 +101,7 @@ module "synapse_sql_on_demand_private_endpoint" {
   name_suffix          = "sod"
   endpoint_type        = "SqlOnDemand"
   private_dns_zones    = [module.private_dns_zones.zones.syn_sql]
+  count                = var.synapse != null ? 1 : 0
 }
 
 module "synapse_private_link_hub" {
@@ -106,4 +109,5 @@ module "synapse_private_link_hub" {
   config              = var.config
   subnet_id           = module.network.vnet.main_subnet.id
   private_dns_zone_id = module.private_dns_zones.zones.syn
+  count               = var.synapse != null ? 1 : 0
 }

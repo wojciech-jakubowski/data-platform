@@ -33,6 +33,11 @@ module "config" {
   env                = var.env
 }
 
+module "resource_group" {
+  source = "./modules/resource_group"
+  config = module.config.output
+}
+
 module "monitoring" {
   source = "./modules/monitoring"
   config = module.config.output
@@ -40,11 +45,6 @@ module "monitoring" {
   depends_on = [
     module.resource_group
   ]
-}
-
-module "resource_group" {
-  source = "./modules/resource_group"
-  config = module.config.output
 }
 
 module "key_vault" {
@@ -82,6 +82,7 @@ module "synapse" {
   config     = module.config.output
   monitoring = module.monitoring.output
   storage    = module.storage.output
+  #purview    = module.purview.output
 
   depends_on = [
     module.resource_group
@@ -119,9 +120,10 @@ module "networking" {
   monitoring = module.monitoring.output
   storage    = module.storage.output
   synapse    = module.synapse.output
+  #purview    = module.purview.output
 
   depends_on = [
-    module.resource_group
+    module.resource_group,
   ]
   count = module.config.output.deploy_networking ? 1 : 0
 }
@@ -129,8 +131,9 @@ module "networking" {
 module "role_assingments" {
   source       = "./modules/aad/role_assignments"
   config       = module.config.output
-  storage      = module.storage.output
   key_vault    = module.key_vault.output
-  synapse      = module.synapse.output
+  storage      = module.storage.output
   data_factory = module.data_factory.output
+  synapse      = module.synapse.output
+  #purview      = module.purview[0].output
 }
