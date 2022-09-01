@@ -90,16 +90,16 @@ module "synapse" {
   ]
 }
 
-module "purview" {
-  source     = "./modules/purview"
-  config     = module.config.output
-  monitoring = module.monitoring.output
-  key_vault  = module.key_vault.output
+# module "purview" {
+#   source     = "./modules/purview"
+#   config     = module.config.output
+#   monitoring = module.monitoring.output
+#   key_vault  = module.key_vault.output
 
-  depends_on = [
-    module.resource_group
-  ]
-}
+#   depends_on = [
+#     module.resource_group
+#   ]
+# }
 
 module "secrets" {
   source    = "./modules/secrets"
@@ -122,7 +122,7 @@ module "networking" {
   monitoring = module.monitoring.output
   storage    = module.storage.output
   synapse    = module.synapse.output
-  purview    = module.purview.output
+#  purview    = module.purview.output
 
   depends_on = [
     module.resource_group,
@@ -138,5 +138,5 @@ module "role_assingments" {
   storage      = module.storage.output
   data_factory = module.data_factory.output
   synapse      = module.synapse.output
-  purview      = module.purview.output
+#  purview      = module.purview.output
 }
