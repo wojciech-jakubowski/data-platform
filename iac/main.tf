@@ -7,7 +7,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.19.0"
+      version = "3.20.0"
     }
   }
 }
@@ -71,6 +71,7 @@ module "data_factory" {
   source     = "./modules/data_factory"
   config     = module.config.output
   monitoring = module.monitoring.output
+  key_vault  = module.key_vault.output
 
   depends_on = [
     module.resource_group
@@ -81,6 +82,7 @@ module "synapse" {
   source     = "./modules/synapse"
   config     = module.config.output
   monitoring = module.monitoring.output
+  key_vault  = module.key_vault.output
   storage    = module.storage.output
   #purview    = module.purview.output
 
@@ -120,7 +122,7 @@ module "networking" {
   monitoring = module.monitoring.output
   storage    = module.storage.output
   synapse    = module.synapse.output
-  #purview    = module.purview.output
+#  purview    = module.purview.output
 
   depends_on = [
     module.resource_group,
@@ -136,5 +138,5 @@ module "role_assingments" {
   storage      = module.storage.output
   data_factory = module.data_factory.output
   synapse      = module.synapse.output
-  #purview      = module.purview.output
+#  purview      = module.purview.output
 }

@@ -7,22 +7,22 @@ resource "azurerm_key_vault" "key_vault" {
   sku_name                   = "standard"
   tags                       = var.config.tags
 
-  access_policy {
-    tenant_id = var.config.tenant_id
-    object_id = var.config.deployer_object_id
+  # access_policy {
+  #   tenant_id = var.config.tenant_id
+  #   object_id = var.config.deployer_object_id
 
-    key_permissions = [
-      "Backup", "Create", "Decrypt", "Delete", "Encrypt", "Get", "Import", "List", "Purge", "Recover", "Restore", "Sign", "UnwrapKey", "Update", "Verify", "WrapKey"
-    ]
+  #   key_permissions = [
+  #     "Backup", "Create", "Decrypt", "Delete", "Encrypt", "Get", "Import", "List", "Purge", "Recover", "Restore", "Sign", "UnwrapKey", "Update", "Verify", "WrapKey"
+  #   ]
 
-    secret_permissions = [
-      "Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set",
-    ]
+  #   secret_permissions = [
+  #     "Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set",
+  #   ]
 
-    certificate_permissions = [
-      "Backup", "Create", "Delete", "DeleteIssuers", "Get", "GetIssuers", "Import", "List", "ListIssuers", "ManageContacts", "ManageIssuers", "Purge", "Recover", "Restore", "SetIssuers", "Update",
-    ]
-  }
+  #   certificate_permissions = [
+  #     "Backup", "Create", "Delete", "DeleteIssuers", "Get", "GetIssuers", "Import", "List", "ListIssuers", "ManageContacts", "ManageIssuers", "Purge", "Recover", "Restore", "SetIssuers", "Update",
+  #   ]
+  # }
 
   network_acls {
     bypass         = "AzureServices"
@@ -44,4 +44,13 @@ module "diagnostic_settings" {
   metrics = {
     "AllMetrics" = true
   }
+}
+
+resource "azurerm_key_vault_access_policy" "deployer" {
+  key_vault_id       = azurerm_key_vault.key_vault.id
+  tenant_id          = var.config.tenant_id
+  object_id          = var.config.deployer_object_id
+  key_permissions = ["Backup", "Create", "Decrypt", "Delete", "Encrypt", "Get", "Import", "List", "Purge", "Recover", "Restore", "Sign", "UnwrapKey", "Update", "Verify", "WrapKey"]
+  secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
+  certificate_permissions = ["Backup", "Create", "Delete", "DeleteIssuers", "Get", "GetIssuers", "Import", "List", "ListIssuers", "ManageContacts", "ManageIssuers", "Purge", "Recover", "Restore", "SetIssuers", "Update"]
 }

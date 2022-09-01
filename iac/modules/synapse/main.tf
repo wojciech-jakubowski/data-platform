@@ -67,3 +67,10 @@ module "diagnostic_settings" {
     "AllMetrics" = true
   }
 }
+
+resource "azurerm_key_vault_access_policy" "synapse_on_kv" {
+  key_vault_id       = var.key_vault.key_vault.id
+  tenant_id          = var.config.tenant_id
+  object_id          = azurerm_synapse_workspace.workspace.identity[0].principal_id
+  secret_permissions = ["Get", "List"]
+}
