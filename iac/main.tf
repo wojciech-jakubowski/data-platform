@@ -84,7 +84,6 @@ module "synapse" {
   monitoring = module.monitoring.output
   key_vault  = module.key_vault.output
   storage    = module.storage.output
-  purview    = module.purview.output
 
   depends_on = [
     module.resource_group
