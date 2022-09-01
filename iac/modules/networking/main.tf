@@ -10,6 +10,14 @@ module "network" {
   config = var.config
 }
 
+#db nsg
+module "db_nsg" {
+  source = "./network_security_group"
+  config = var.config
+  name   = "db"
+  count  = var.databricks != null ? 1 : 0
+}
+
 # key_vault
 module "kv_private_endpoint" {
   source               = "./private_endpoint"

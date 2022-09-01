@@ -1,10 +1,10 @@
 resource "azurerm_databricks_workspace" "workspace" {
-  name                          = "${var.config.name_prefix}-dbw"
-  resource_group_name           = var.config.resource_group_name
-  location                      = var.config.location
-  sku                           = "premium"
-  managed_resource_group_name   = "${var.config.name_prefix}-dbw-rg"
-  public_network_access_enabled = true
+  name                                  = "${var.config.name_prefix}-dbw"
+  resource_group_name                   = var.config.resource_group_name
+  location                              = var.config.location
+  sku                                   = "premium"
+  managed_resource_group_name           = "${var.config.name_prefix}-dbw-rg"
+  public_network_access_enabled         = true
   network_security_group_rules_required = var.networking != null ? "NoAzureDatabricksRules " : null
 
   custom_parameters {

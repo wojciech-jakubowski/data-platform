@@ -8,3 +8,6 @@ variable "synapse" {
 variable "purview" {
   default = null
 }
+variable "databricks" {
+  default = null
+}
