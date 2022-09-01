@@ -5,6 +5,7 @@ locals {
     blob : "blob.core.windows.net"
     syn_sql : "privatelink.sql.azuresynapse.net"
     syn_dev : "privatelink.dev.azuresynapse.net"
+    pur_por : "privatelink.purviewstudio.azure.com"
   }
   internal_private_dns_zones_rg = var.config.resource_group_name
 
@@ -14,6 +15,7 @@ locals {
     oms : "privatelink.oms.opinsights.azure.com"
     asc : "privatelink.agentsvc.azure-automation.net"
     syn : "privatelink.azuresynapse.net"
+    pur_acc: "privatelink.purview.azure.com"
   }
   shared_private_dns_zones_rg = var.config.resource_group_name
 }

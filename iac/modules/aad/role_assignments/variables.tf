@@ -7,3 +7,6 @@ variable "data_factory" {
 variable "synapse" {
     default = null
 }
+variable "purview" {
+    default = null
+}

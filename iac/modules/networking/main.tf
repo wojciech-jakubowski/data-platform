@@ -111,3 +111,27 @@ module "synapse_private_link_hub" {
   private_dns_zone_id = module.private_dns_zones.zones.syn
   count               = var.synapse != null ? 1 : 0
 }
+
+module "purview_portal_private_endpoint" {
+  source               = "./private_endpoint"
+  config               = var.config
+  subnet_id            = module.network.vnet.main_subnet.id
+  parent_resource_id   = var.purview.purview.id
+  parent_resource_name = var.purview.purview.name
+  name_suffix          = "ptl"
+  endpoint_type        = "portal"
+  private_dns_zones    = [module.private_dns_zones.zones.pur_por]
+  count               = var.purview != null ? 1 : 0
+}
+
+module "purview_account_private_endpoint" {
+  source               = "./private_endpoint"
+  config               = var.config
+  subnet_id            = module.network.vnet.main_subnet.id
+  parent_resource_id   = var.purview.purview.id
+  parent_resource_name = var.purview.purview.name
+  name_suffix          = "acc"
+  endpoint_type        = "account"
+  private_dns_zones    = [module.private_dns_zones.zones.pur_acc]
+  count               = var.purview != null ? 1 : 0
+}
