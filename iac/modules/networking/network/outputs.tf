@@ -9,10 +9,12 @@ output "vnet" {
     }
     db_public_subnet = {
       id             = azurerm_subnet.db_public_subnet.id
+      name           = azurerm_subnet.db_public_subnet.name
       address_prefix = azurerm_subnet.db_public_subnet.address_prefixes[0]
     }
     db_private_subnet = {
       id             = azurerm_subnet.db_private_subnet.id
+      name           = azurerm_subnet.db_private_subnet.name
       address_prefix = azurerm_subnet.db_private_subnet.address_prefixes[0]
     }
   }

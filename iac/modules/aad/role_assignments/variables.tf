@@ -2,11 +2,14 @@ variable "config" {}
 variable "storage" {}
 variable "key_vault" {}
 variable "data_factory" {
-    default = null
+  default = null
 }
 variable "synapse" {
-    default = null
+  default = null
 }
 variable "purview" {
-    default = null
+  default = null
+}
+variable "databricks" {
+  default = null
 }

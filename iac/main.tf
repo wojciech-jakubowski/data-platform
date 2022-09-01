@@ -90,6 +90,17 @@ module "synapse" {
   ]
 }
 
+module "databricks" {
+  source     = "./modules/databricks"
+  config     = module.config.output
+  monitoring = module.monitoring.output
+
+  depends_on = [
+    module.resource_group
+  ]
+}
+
+
 # module "purview" {
 #   source     = "./modules/purview"
 #   config     = module.config.output
@@ -107,7 +118,8 @@ module "secrets" {
   secrets = merge(
     module.monitoring.output.secrets,
     module.storage.output.secrets,
-    module.synapse.output.secrets
+    module.synapse.output.secrets,
+    module.databricks.output.secrets
   )
 
   depends_on = [
@@ -122,7 +134,7 @@ module "networking" {
   monitoring = module.monitoring.output
   storage    = module.storage.output
   synapse    = module.synapse.output
-#  purview    = module.purview.output
+  #  purview    = module.purview.output
 
   depends_on = [
     module.resource_group,
@@ -138,5 +150,6 @@ module "role_assingments" {
   storage      = module.storage.output
   data_factory = module.data_factory.output
   synapse      = module.synapse.output
-#  purview      = module.purview.output
+  databricks   = module.databricks.output
+  #  purview      = module.purview.output
 }

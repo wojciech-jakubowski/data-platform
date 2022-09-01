@@ -121,7 +121,7 @@ module "purview_portal_private_endpoint" {
   name_suffix          = "ptl"
   endpoint_type        = "portal"
   private_dns_zones    = [module.private_dns_zones.zones.pur_por]
-  count               = var.purview != null ? 1 : 0
+  count                = var.purview != null ? 1 : 0
 }
 
 module "purview_account_private_endpoint" {
@@ -133,5 +133,5 @@ module "purview_account_private_endpoint" {
   name_suffix          = "acc"
   endpoint_type        = "account"
   private_dns_zones    = [module.private_dns_zones.zones.pur_acc]
-  count               = var.purview != null ? 1 : 0
+  count                = var.purview != null ? 1 : 0
 }
