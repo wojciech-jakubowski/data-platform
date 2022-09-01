@@ -124,6 +124,7 @@ module "networking" {
 
   depends_on = [
     module.resource_group,
+    module.monitoring
   ]
   count = module.config.output.deploy_networking ? 1 : 0
 }
@@ -135,5 +136,5 @@ module "role_assingments" {
   storage      = module.storage.output
   data_factory = module.data_factory.output
   synapse      = module.synapse.output
-  #purview      = module.purview[0].output
+  #purview      = module.purview.output
 }
