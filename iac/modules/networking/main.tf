@@ -1,7 +1,10 @@
 # DNS zones
 module "private_dns_zones" {
-  source = "./private_dns_zones"
-  config = var.config
+  source                  = "./private_dns_zones"
+  config                  = var.config
+  deploy_synapse_zones    = var.deploy_synapse_zones
+  deploy_databricks_zones = var.deploy_databricks_zones
+  deploy_purview_zones    = var.deploy_purview_zones
 }
 
 locals {

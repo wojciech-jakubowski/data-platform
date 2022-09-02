@@ -32,11 +32,11 @@ module "config" {
   tenant_id          = data.azurerm_client_config.current.tenant_id
   env                = var.env
 
-  deploy_networking = true
-# deploy_data_factory = true
-# deploy_synapse = true
-  deploy_databricks = true
-#  deploy_purview = false
+  deploy_networking   = true
+  deploy_data_factory = false
+  deploy_synapse      = false
+  deploy_databricks   = true
+  deploy_purview      = false
 }
 
 module "resource_group" {
@@ -45,8 +45,11 @@ module "resource_group" {
 }
 
 module "networking" {
-  source = "./modules/networking"
-  config = module.config.output
+  source                  = "./modules/networking"
+  config                  = module.config.output
+  deploy_synapse_zones    = module.config.output.deploy_synapse
+  deploy_databricks_zones = module.config.output.deploy_databricks
+  deploy_purview_zones    = module.config.output.deploy_purview
 
   depends_on = [
     module.resource_group

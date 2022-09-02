@@ -11,11 +11,11 @@ resource "azurerm_databricks_workspace" "workspace" {
     no_public_ip        = true
     virtual_network_id  = var.networking != null ? var.networking.vnet.id : null
     vnet_address_prefix = var.networking != null ? var.networking.vnet.address_prefix : null
-    
-    public_subnet_name  = var.networking != null ? var.networking.db_public_subnet.name : null
+
+    public_subnet_name                                  = var.networking != null ? var.networking.db_public_subnet.name : null
     public_subnet_network_security_group_association_id = var.networking != null ? azurerm_subnet_network_security_group_association.dnb_nsg_public_asssociation[0].id : null
-    
-    private_subnet_name = var.networking != null ? var.networking.db_private_subnet.name : null
+
+    private_subnet_name                                  = var.networking != null ? var.networking.db_private_subnet.name : null
     private_subnet_network_security_group_association_id = var.networking != null ? azurerm_subnet_network_security_group_association.dnb_nsg_private_asssociation[0].id : null
 
     storage_account_name     = "${var.config.dashless_name_prefix}dbssa"
