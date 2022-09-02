@@ -31,6 +31,11 @@ module "config" {
   deployer_object_id = data.azurerm_client_config.current.object_id
   tenant_id          = data.azurerm_client_config.current.tenant_id
   env                = var.env
+
+  deploy_data_factory = true
+  deploy_synapse = true
+  deploy_databricks = true
+  deploy_purview = false
 }
 
 module "resource_group" {
@@ -108,7 +113,7 @@ module "databricks" {
   source     = "./modules/databricks"
   config     = module.config.output
   monitoring = module.monitoring.output
-  networking = length(module.networking) != 0 ? module.networking[0].output : null
+  networking = module.config.output.deploy_networking ? module.networking[0].output : null
 
   depends_on = [
     module.resource_group
@@ -136,8 +141,8 @@ module "secrets" {
   secrets = merge(
     module.monitoring.output.secrets,
     module.storage.output.secrets,
-    module.config.output.deploy_synapse ? module.synapse.output.secrets : {},
-    module.config.output.deploy_databricks ? module.databricks.output.secrets : {}
+    module.config.output.deploy_synapse ? module.synapse[0].output.secrets : {},
+    module.config.output.deploy_databricks ? module.databricks[0].output.secrets : {}
   )
 
   depends_on = [
@@ -151,10 +156,10 @@ module "role_assingments" {
   config       = module.config.output
   key_vault    = module.key_vault.output
   storage      = module.storage.output
-  data_factory = module.config.output.deploy_data_factory ? module.data_factory.output : null
-  synapse      = module.config.output.deploy_synapse ? module.synapse.output : null
-  databricks   = module.config.output.deploy_databricks ? module.databricks.output : null
-  purview      = module.config.output.deploy_purview ? module.purview.output : null
+  data_factory = module.config.output.deploy_data_factory ? module.data_factory[0].output : null
+  synapse      = module.config.output.deploy_synapse ? module.synapse[0].output : null
+  databricks   = module.config.output.deploy_databricks ? module.databricks[0].output : null
+  purview      = module.config.output.deploy_purview ? module.purview[0].output : null
 }
 
 module "private_endpoints" {
@@ -163,10 +168,10 @@ module "private_endpoints" {
   key_vault  = module.key_vault.output
   monitoring = module.monitoring.output
   storage    = module.storage.output
-  networking = module.config.output.deploy_networking ? module.networking.output : null
-  synapse    = module.config.output.deploy_synapse ? module.synapse.output : null
-  databricks = module.config.output.deploy_databricks ? module.databricks.output : null
-  purview    = module.config.output.deploy_purview ? module.purview.output : null
+  networking = module.config.output.deploy_networking ? module.networking[0].output : null
+  synapse    = module.config.output.deploy_synapse ? module.synapse[0].output : null
+  databricks = module.config.output.deploy_databricks ? module.databricks[0].output : null
+  purview    = module.config.output.deploy_purview ? module.purview[0].output : null
 
   depends_on = [
     module.resource_group,
