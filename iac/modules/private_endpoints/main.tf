@@ -123,3 +123,27 @@ module "purview_account_private_endpoint" {
   private_dns_zones    = [var.networking.private_dns_zones.pur_acc]
   count                = var.purview != null ? 1 : 0
 }
+
+module "databricks_bowser_auth_private_endpoint" {
+  source               = "./private_endpoint"
+  config               = var.config
+  subnet_id            = var.networking.main_subnet.id
+  parent_resource_id   = var.databricks.workspace.id
+  parent_resource_name = var.databricks.workspace.name
+  name_suffix          = "bra"
+  endpoint_type        = "browser_authentication"
+  private_dns_zones    = [var.networking.private_dns_zones.pur_acc]
+  count                = var.databricks != null ? 1 : 0
+}
+
+module "databricks_account_private_endpoint" {
+  source               = "./private_endpoint"
+  config               = var.config
+  subnet_id            = var.networking.main_subnet.id
+  parent_resource_id   = var.databricks.workspace.id
+  parent_resource_name = var.databricks.workspace.name
+  name_suffix          = "bra"
+  endpoint_type        = "databricks_ui_api"
+  private_dns_zones    = [var.networking.private_dns_zones.pur_acc]
+  count                = var.databricks != null ? 1 : 0
+}
