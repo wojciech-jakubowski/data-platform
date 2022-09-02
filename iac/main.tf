@@ -32,10 +32,11 @@ module "config" {
   tenant_id          = data.azurerm_client_config.current.tenant_id
   env                = var.env
 
-  deploy_data_factory = true
-  deploy_synapse = true
+  deploy_networking = true
+# deploy_data_factory = true
+# deploy_synapse = true
   deploy_databricks = true
-  deploy_purview = false
+#  deploy_purview = false
 }
 
 module "resource_group" {

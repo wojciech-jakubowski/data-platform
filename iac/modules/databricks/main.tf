@@ -5,14 +5,18 @@ resource "azurerm_databricks_workspace" "workspace" {
   sku                                   = "premium"
   managed_resource_group_name           = "${var.config.name_prefix}-dbw-rg"
   public_network_access_enabled         = true
-  network_security_group_rules_required = var.networking != null ? "NoAzureDatabricksRules " : null
+  network_security_group_rules_required = var.networking != null ? "NoAzureDatabricksRules" : null
 
   custom_parameters {
     no_public_ip        = true
     virtual_network_id  = var.networking != null ? var.networking.vnet.id : null
     vnet_address_prefix = var.networking != null ? var.networking.vnet.address_prefix : null
-    public_subnet_name  = var.networking != null ? var.networking.vnet.db_public_subnet.name : null
-    private_subnet_name = var.networking != null ? var.networking.vnet.db_private_subnet.name : null
+    
+    public_subnet_name  = var.networking != null ? var.networking.db_public_subnet.name : null
+    public_subnet_network_security_group_association_id = var.networking != null ? azurerm_subnet_network_security_group_association.dnb_nsg_public_asssociation[0].id : null
+    
+    private_subnet_name = var.networking != null ? var.networking.db_private_subnet.name : null
+    private_subnet_network_security_group_association_id = var.networking != null ? azurerm_subnet_network_security_group_association.dnb_nsg_private_asssociation[0].id : null
 
     storage_account_name     = "${var.config.dashless_name_prefix}dbssa"
     storage_account_sku_name = "Standard_GRS"
@@ -30,14 +34,14 @@ resource "azurerm_network_security_group" "db_nsg" {
   count = var.networking != null ? 1 : 0
 }
 
-resource "azurerm_subnet_network_security_group_association" "dnb_nsg_db_public_subnet_asssociation" {
+resource "azurerm_subnet_network_security_group_association" "dnb_nsg_public_asssociation" {
   subnet_id                 = var.networking.db_public_subnet.id
   network_security_group_id = azurerm_network_security_group.db_nsg[0].id
 
   count = var.networking != null ? 1 : 0
 }
 
-resource "azurerm_subnet_network_security_group_association" "dnb_nsg_db_private_subnet_asssociation" {
+resource "azurerm_subnet_network_security_group_association" "dnb_nsg_private_asssociation" {
   subnet_id                 = var.networking.db_private_subnet.id
   network_security_group_id = azurerm_network_security_group.db_nsg[0].id
 
