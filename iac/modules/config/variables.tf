@@ -21,3 +21,23 @@ variable "deployer_object_id" {
 variable "tenant_id" {
   type = string
 }
+
+variable "deploy_networking" {
+  default = false
+}
+
+variable "deploy_data_factory" {
+  default = false
+}
+
+variable "deploy_synapse" {
+  default = false
+}
+
+variable "deploy_databricks" {
+  default = false
+}
+
+variable "deploy_purview" {
+  default = false
+}

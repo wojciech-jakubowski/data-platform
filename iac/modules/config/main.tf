@@ -24,6 +24,10 @@ locals {
       object_id = var.deployer_object_id
     }
 
-    deploy_networking = true
+    deploy_networking   = var.deploy_networking
+    deploy_data_factory = var.deploy_data_factory
+    deploy_synapse      = var.deploy_synapse
+    deploy_databricks   = var.deploy_databricks
+    deploy_purview      = var.deploy_purview
   }
 }

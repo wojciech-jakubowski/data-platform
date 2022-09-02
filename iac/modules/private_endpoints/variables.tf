@@ -4,8 +4,11 @@ variable "key_vault" {}
 variable "monitoring" {}
 variable "storage" {}
 variable "synapse" {
-    default = null
+  default = null
+}
+variable "databricks" {
+  default = null
 }
 variable "purview" {
-    default = null
+  default = null
 }

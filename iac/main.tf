@@ -39,8 +39,8 @@ module "resource_group" {
 }
 
 module "networking" {
-  source     = "./modules/networking"
-  config     = module.config.output
+  source = "./modules/networking"
+  config = module.config.output
 
   depends_on = [
     module.resource_group
@@ -86,6 +86,8 @@ module "data_factory" {
   depends_on = [
     module.resource_group
   ]
+
+  count = module.config.output.deploy_data_factory ? 1 : 0
 }
 
 module "synapse" {
@@ -98,6 +100,8 @@ module "synapse" {
   depends_on = [
     module.resource_group
   ]
+
+  count = module.config.output.deploy_synapse ? 1 : 0
 }
 
 module "databricks" {
@@ -109,6 +113,8 @@ module "databricks" {
   depends_on = [
     module.resource_group
   ]
+
+  count = module.config.output.deploy_databricks ? 1 : 0
 }
 
 module "purview" {
@@ -120,6 +126,8 @@ module "purview" {
   depends_on = [
     module.resource_group
   ]
+
+  count = module.config.output.deploy_purview ? 1 : 0
 }
 
 module "secrets" {
@@ -128,30 +136,14 @@ module "secrets" {
   secrets = merge(
     module.monitoring.output.secrets,
     module.storage.output.secrets,
-    module.synapse.output.secrets,
-    module.databricks.output.secrets
+    module.config.output.deploy_synapse ? module.synapse.output.secrets : {},
+    module.config.output.deploy_databricks ? module.databricks.output.secrets : {}
   )
 
   depends_on = [
-    module.resource_group
-  ]
-}
-
-module "private_endpoints" {
-  source     = "./modules/private_endpoints"
-  config     = module.config.output
-  networking = module.networking[0].output
-  key_vault  = module.key_vault.output
-  monitoring = module.monitoring.output
-  storage    = module.storage.output
-  synapse    = module.synapse.output
-  #  purview    = module.purview.output
-
-  depends_on = [
     module.resource_group,
-    module.monitoring
+    module.key_vault
   ]
-  count = module.config.output.deploy_networking ? 1 : 0
 }
 
 module "role_assingments" {
@@ -159,8 +151,27 @@ module "role_assingments" {
   config       = module.config.output
   key_vault    = module.key_vault.output
   storage      = module.storage.output
-  data_factory = module.data_factory.output
-  synapse      = module.synapse.output
-  databricks   = module.databricks.output
-  #  purview      = module.purview.output
+  data_factory = module.config.output.deploy_data_factory ? module.data_factory.output : null
+  synapse      = module.config.output.deploy_synapse ? module.synapse.output : null
+  databricks   = module.config.output.deploy_databricks ? module.databricks.output : null
+  purview      = module.config.output.deploy_purview ? module.purview.output : null
+}
+
+module "private_endpoints" {
+  source     = "./modules/private_endpoints"
+  config     = module.config.output
+  key_vault  = module.key_vault.output
+  monitoring = module.monitoring.output
+  storage    = module.storage.output
+  networking = module.config.output.deploy_networking ? module.networking.output : null
+  synapse    = module.config.output.deploy_synapse ? module.synapse.output : null
+  databricks = module.config.output.deploy_databricks ? module.databricks.output : null
+  purview    = module.config.output.deploy_purview ? module.purview.output : null
+
+  depends_on = [
+    module.resource_group,
+    module.networking[0],
+    module.monitoring
+  ]
+  count = module.config.output.deploy_networking ? 1 : 0
 }
