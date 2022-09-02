@@ -13,7 +13,7 @@ resource "azurerm_synapse_workspace" "workspace" {
   resource_group_name                  = var.config.resource_group_name
   managed_resource_group_name          = "${var.config.client_name}-${var.config.project_name}-${var.config.env}-sw-rg"
   location                             = var.config.location
-  storage_data_lake_gen2_filesystem_id = "${var.storage.dl.dfs_endpoint}/synapse"
+  storage_data_lake_gen2_filesystem_id = "${var.storage.data_lake.dfs_endpoint}/synapse"
   sql_administrator_login              = local.sql_admin_login
   sql_administrator_login_password     = random_password.password.result
   managed_virtual_network_enabled      = true
@@ -51,7 +51,7 @@ module "diagnostic_settings" {
   config                     = var.config
   target_resource_id         = azurerm_synapse_workspace.workspace.id
   target_resource_name       = azurerm_synapse_workspace.workspace.name
-  log_analytics_workspace_id = var.monitoring.log_analytics_workspace.id
+  log_analytics_workspace_id = var.monitoring.log_analytics.id
   logs = {
     "BuiltinSqlReqsEnded"     = true
     "GatewayApiRequests"      = true
@@ -68,7 +68,7 @@ module "diagnostic_settings" {
 }
 
 resource "azurerm_key_vault_access_policy" "synapse_on_kv" {
-  key_vault_id       = var.key_vault.key_vault.id
+  key_vault_id       = var.key_vault.vault.id
   tenant_id          = var.config.tenant_id
   object_id          = azurerm_synapse_workspace.workspace.identity[0].principal_id
   secret_permissions = ["Get", "List"]

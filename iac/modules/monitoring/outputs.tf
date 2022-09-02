@@ -1,6 +1,6 @@
 output "output" {
   value = {
-    log_analytics_workspace = {
+    log_analytics = {
       id = azurerm_log_analytics_workspace.lgw.id
     }
     app_insights = {

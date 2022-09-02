@@ -33,7 +33,7 @@ module "diagnostic_settings" {
   config                     = var.config
   target_resource_id         = "${azurerm_storage_account.sa.id}/blobServices/default"
   target_resource_name       = azurerm_storage_account.sa.name
-  log_analytics_workspace_id = var.monitoring.log_analytics_workspace.id
+  log_analytics_workspace_id = var.monitoring.log_analytics.id
   logs = {
     "StorageRead"   = true
     "StorageWrite"  = true

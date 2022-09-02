@@ -16,7 +16,7 @@ module "diagnostic_settings" {
   config                     = var.config
   target_resource_id         = azurerm_purview_account.purview.id
   target_resource_name       = azurerm_purview_account.purview.name
-  log_analytics_workspace_id = var.monitoring.log_analytics_workspace.id
+  log_analytics_workspace_id = var.monitoring.log_analytics.id
   logs = {
     "DataSensitivityLogEvent" = true
     "ScanStatusLogEvent"      = true
@@ -28,7 +28,7 @@ module "diagnostic_settings" {
 }
 
 resource "azurerm_key_vault_access_policy" "purview_on_kv" {
-  key_vault_id       = var.key_vault.key_vault.id
+  key_vault_id       = var.key_vault.vault.id
   tenant_id          = var.config.tenant_id
   object_id          = azurerm_purview_account.purview.identity[0].principal_id
   secret_permissions = ["Get", "List"]

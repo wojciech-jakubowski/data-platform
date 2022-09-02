@@ -21,12 +21,35 @@ resource "azurerm_databricks_workspace" "workspace" {
   tags = var.config.tags
 }
 
+resource "azurerm_network_security_group" "db_nsg" {
+  name                = "${var.config.name_prefix}-db-nsg"
+  location            = var.config.location
+  resource_group_name = var.config.resource_group_name
+  tags                = var.config.tags
+
+  count = var.networking != null ? 1 : 0
+}
+
+resource "azurerm_subnet_network_security_group_association" "dnb_nsg_db_public_subnet_asssociation" {
+  subnet_id                 = var.networking.db_public_subnet.id
+  network_security_group_id = azurerm_network_security_group.db_nsg[0].id
+
+  count = var.networking != null ? 1 : 0
+}
+
+resource "azurerm_subnet_network_security_group_association" "dnb_nsg_db_private_subnet_asssociation" {
+  subnet_id                 = var.networking.db_private_subnet.id
+  network_security_group_id = azurerm_network_security_group.db_nsg[0].id
+
+  count = var.networking != null ? 1 : 0
+}
+
 module "diagnostic_settings" {
   source                     = "../monitoring/diagnostic_settings"
   config                     = var.config
   target_resource_id         = azurerm_databricks_workspace.workspace.id
   target_resource_name       = azurerm_databricks_workspace.workspace.name
-  log_analytics_workspace_id = var.monitoring.log_analytics_workspace.id
+  log_analytics_workspace_id = var.monitoring.log_analytics.id
   logs = {
     "accounts"             = true
     "clusters"             = true
@@ -54,3 +77,4 @@ module "diagnostic_settings" {
   }
   metrics = {}
 }
+

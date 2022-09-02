@@ -38,6 +38,16 @@ module "resource_group" {
   config = module.config.output
 }
 
+module "networking" {
+  source     = "./modules/networking"
+  config     = module.config.output
+
+  depends_on = [
+    module.resource_group
+  ]
+  count = module.config.output.deploy_networking ? 1 : 0
+}
+
 module "monitoring" {
   source = "./modules/monitoring"
   config = module.config.output
@@ -94,23 +104,23 @@ module "databricks" {
   source     = "./modules/databricks"
   config     = module.config.output
   monitoring = module.monitoring.output
+  networking = length(module.networking) != 0 ? module.networking[0].output : null
 
   depends_on = [
     module.resource_group
   ]
 }
 
+module "purview" {
+  source     = "./modules/purview"
+  config     = module.config.output
+  monitoring = module.monitoring.output
+  key_vault  = module.key_vault.output
 
-# module "purview" {
-#   source     = "./modules/purview"
-#   config     = module.config.output
-#   monitoring = module.monitoring.output
-#   key_vault  = module.key_vault.output
-
-#   depends_on = [
-#     module.resource_group
-#   ]
-# }
+  depends_on = [
+    module.resource_group
+  ]
+}
 
 module "secrets" {
   source    = "./modules/secrets"
@@ -127,9 +137,10 @@ module "secrets" {
   ]
 }
 
-module "networking" {
-  source     = "./modules/networking"
+module "private_endpoints" {
+  source     = "./modules/private_endpoints"
   config     = module.config.output
+  networking = module.networking[0].output
   key_vault  = module.key_vault.output
   monitoring = module.monitoring.output
   storage    = module.storage.output
