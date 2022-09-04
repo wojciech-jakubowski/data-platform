@@ -40,7 +40,7 @@ locals {
     local.monitoring_shared_private_dns_zones,
     local.synapse_shared_private_dns_zones,
     local.purview_shared_private_dns_zones,
-    local.databricks_shared_private_dns_zones)
+  local.databricks_shared_private_dns_zones)
 
   shared_private_dns_zones_rg = var.config.resource_group_name
 }

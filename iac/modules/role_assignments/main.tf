@@ -20,6 +20,13 @@ resource "azurerm_role_assignment" "purview_on_storage" {
   count                = var.purview != null ? 1 : 0
 }
 
+resource "azurerm_role_assignment" "data_spn_on_storage" {
+  scope                = var.storage.data_lake.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = var.service_principal.spn.object_id
+}
+
+
 # databricks
 resource "azurerm_role_assignment" "adf_on_databricks" {
   scope                = var.databricks.workspace.id

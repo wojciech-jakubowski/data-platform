@@ -9,6 +9,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "3.20.0"
     }
+    azuread = {
+      source = "hashicorp/azuread"
+      version = "2.28.1"
+    }
   }
 }
 
@@ -33,8 +37,8 @@ module "config" {
   env                = var.env
 
   deploy_networking   = true
-  deploy_data_factory = false
-  deploy_synapse      = false
+  deploy_data_factory = true
+  deploy_synapse      = true
   deploy_databricks   = true
   deploy_purview      = false
 }
@@ -74,6 +78,11 @@ module "key_vault" {
   depends_on = [
     module.resource_group
   ]
+}
+
+module "service_principal" {
+  source = "./modules/service_principal"
+  config = module.config.output
 }
 
 module "storage" {
@@ -143,6 +152,7 @@ module "secrets" {
   source    = "./modules/secrets"
   key_vault = module.key_vault.output
   secrets = merge(
+    module.service_principal.output.secrets,
     module.monitoring.output.secrets,
     module.storage.output.secrets,
     module.config.output.deploy_synapse ? module.synapse[0].output.secrets : {},
@@ -156,14 +166,15 @@ module "secrets" {
 }
 
 module "role_assingments" {
-  source       = "./modules/aad/role_assignments"
-  config       = module.config.output
-  key_vault    = module.key_vault.output
-  storage      = module.storage.output
-  data_factory = module.config.output.deploy_data_factory ? module.data_factory[0].output : null
-  synapse      = module.config.output.deploy_synapse ? module.synapse[0].output : null
-  databricks   = module.config.output.deploy_databricks ? module.databricks[0].output : null
-  purview      = module.config.output.deploy_purview ? module.purview[0].output : null
+  source            = "./modules/role_assignments"
+  config            = module.config.output
+  key_vault         = module.key_vault.output
+  storage           = module.storage.output
+  service_principal = module.service_principal.output
+  data_factory      = module.config.output.deploy_data_factory ? module.data_factory[0].output : null
+  synapse           = module.config.output.deploy_synapse ? module.synapse[0].output : null
+  databricks        = module.config.output.deploy_databricks ? module.databricks[0].output : null
+  purview           = module.config.output.deploy_purview ? module.purview[0].output : null
 }
 
 module "private_endpoints" {

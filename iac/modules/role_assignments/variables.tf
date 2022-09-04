@@ -1,6 +1,7 @@
 variable "config" {}
 variable "storage" {}
 variable "key_vault" {}
+variable "service_principal" {}
 variable "data_factory" {
   default = null
 }
