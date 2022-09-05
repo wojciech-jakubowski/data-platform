@@ -29,15 +29,15 @@ resource "azurerm_role_assignment" "data_spn_on_storage" {
 
 # databricks
 resource "azurerm_role_assignment" "adf_on_databricks" {
-  scope                = var.databricks.workspace.id
+  scope                = var.databricks_workspace.workspace.id
   role_definition_name = "Contributor"
   principal_id         = var.data_factory.factory.mi_id
-  count                = (var.data_factory != null && var.databricks != null) ? 1 : 0
+  count                = (var.data_factory != null && var.databricks_workspace != null) ? 1 : 0
 }
 
 resource "azurerm_role_assignment" "synapse_on_databricks" {
-  scope                = var.databricks.workspace.id
+  scope                = var.databricks_workspace.workspace.id
   role_definition_name = "Contributor"
   principal_id         = var.synapse.workspace.mi_id
-  count                = (var.synapse != null && var.databricks != null) ? 1 : 0
+  count                = (var.synapse != null && var.databricks_workspace != null) ? 1 : 0
 }

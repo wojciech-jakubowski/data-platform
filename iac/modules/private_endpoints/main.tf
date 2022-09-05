@@ -128,12 +128,12 @@ module "databricks_account_private_endpoint" {
   source               = "./private_endpoint"
   config               = var.config
   subnet_id            = var.networking.main_subnet.id
-  parent_resource_id   = var.databricks.workspace.id
-  parent_resource_name = var.databricks.workspace.name
+  parent_resource_id   = var.databricks_workspace.workspace.id
+  parent_resource_name = var.databricks_workspace.workspace.name
   name_suffix          = "ui"
   endpoint_type        = "databricks_ui_api"
   private_dns_zones    = [var.networking.private_dns_zones.db]
-  count                = var.databricks != null ? 1 : 0
+  count                = var.databricks_workspace != null ? 1 : 0
 }
 
 # only one per region
@@ -141,8 +141,8 @@ module "databricks_account_private_endpoint" {
 #   source               = "./private_endpoint"
 #   config               = var.config
 #   subnet_id            = var.networking.main_subnet.id
-#   parent_resource_id   = var.databricks.workspace.id
-#   parent_resource_name = var.databricks.workspace.name
+#   parent_resource_id   = var.databricks_workspace.workspace.id
+#   parent_resource_name = var.databricks_workspace.workspace.name
 #   name_suffix          = "bra"
 #   endpoint_type        = "browser_authentication"
 #   private_dns_zones    = [var.networking.private_dns_zones.db]

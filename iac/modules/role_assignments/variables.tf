@@ -11,6 +11,6 @@ variable "synapse" {
 variable "purview" {
   default = null
 }
-variable "databricks" {
+variable "databricks_workspace" {
   default = null
 }

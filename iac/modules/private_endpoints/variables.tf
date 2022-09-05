@@ -6,7 +6,7 @@ variable "storage" {}
 variable "synapse" {
   default = null
 }
-variable "databricks" {
+variable "databricks_workspace" {
   default = null
 }
 variable "purview" {

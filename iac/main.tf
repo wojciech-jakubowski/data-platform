@@ -41,8 +41,8 @@ module "config" {
   env                = var.env
 
   deploy_networking   = true
-  deploy_data_factory = true
-  deploy_synapse      = true
+  deploy_data_factory = false
+  deploy_synapse      = false
   deploy_databricks   = true
   deploy_purview      = false
 }
@@ -126,8 +126,8 @@ module "synapse" {
   count = module.config.output.deploy_synapse ? 1 : 0
 }
 
-module "databricks" {
-  source     = "./modules/databricks"
+module "databricks_workspace" {
+  source     = "./modules/databricks_workspace"
   config     = module.config.output
   monitoring = module.monitoring.output
   networking = module.config.output.deploy_networking ? module.networking[0].output : null
@@ -140,7 +140,7 @@ module "databricks" {
 }
 
 provider "databricks" {
-  host  = module.config.output.deploy_databricks ? module.databricks[0].output.workspace.url : null
+  host  = module.config.output.deploy_databricks ? module.databricks_workspace[0].output.workspace.url : null
   alias = "databricks_config"
 }
 
@@ -155,7 +155,7 @@ module "databricks_config" {
   }
 
   depends_on = [
-    module.databricks[0]
+    module.databricks_workspace[0]
   ]
 }
 
@@ -197,7 +197,7 @@ module "role_assingments" {
   service_principal = module.service_principal.output
   data_factory      = module.config.output.deploy_data_factory ? module.data_factory[0].output : null
   synapse           = module.config.output.deploy_synapse ? module.synapse[0].output : null
-  databricks        = module.config.output.deploy_databricks ? module.databricks[0].output : null
+  databricks_workspace        = module.config.output.deploy_databricks ? module.databricks_workspace[0].output : null
   purview           = module.config.output.deploy_purview ? module.purview[0].output : null
 }
 
@@ -209,7 +209,7 @@ module "private_endpoints" {
   storage    = module.storage.output
   networking = module.config.output.deploy_networking ? module.networking[0].output : null
   synapse    = module.config.output.deploy_synapse ? module.synapse[0].output : null
-  databricks = module.config.output.deploy_databricks ? module.databricks[0].output : null
+  databricks_workspace = module.config.output.deploy_databricks ? module.databricks_workspace[0].output : null
   purview    = module.config.output.deploy_purview ? module.purview[0].output : null
 
   depends_on = [
