@@ -10,8 +10,12 @@ terraform {
       version = "3.20.0"
     }
     azuread = {
-      source = "hashicorp/azuread"
+      source  = "hashicorp/azuread"
       version = "2.28.1"
+    }
+    databricks = {
+      source  = "databricks/databricks"
+      version = "1.2.1"
     }
   }
 }
@@ -29,8 +33,8 @@ data "azurerm_client_config" "current" {
 
 module "config" {
   source             = "./modules/config"
-  client_name        = var.clientName
-  project_name       = var.projectName
+  client_name        = var.client_name
+  project_name       = var.project_name
   location           = var.location
   deployer_object_id = data.azurerm_client_config.current.object_id
   tenant_id          = data.azurerm_client_config.current.tenant_id
@@ -135,6 +139,26 @@ module "databricks" {
   count = module.config.output.deploy_databricks ? 1 : 0
 }
 
+provider "databricks" {
+  host  = module.config.output.deploy_databricks ? module.databricks[0].output.workspace.url : null
+  alias = "databricks_config"
+}
+
+module "databricks_config" {
+  source    = "./modules/databricks_config"
+  config    = module.config.output
+  key_vault = module.key_vault.output
+  count     = module.config.output.deploy_databricks ? 1 : 0
+
+  providers = {
+    databricks = databricks.databricks_config
+  }
+
+  depends_on = [
+    module.databricks[0]
+  ]
+}
+
 module "purview" {
   source     = "./modules/purview"
   config     = module.config.output
@@ -156,7 +180,7 @@ module "secrets" {
     module.monitoring.output.secrets,
     module.storage.output.secrets,
     module.config.output.deploy_synapse ? module.synapse[0].output.secrets : {},
-    module.config.output.deploy_databricks ? module.databricks[0].output.secrets : {}
+    module.config.output.deploy_databricks ? module.databricks_config[0].output.secrets : {},
   )
 
   depends_on = [

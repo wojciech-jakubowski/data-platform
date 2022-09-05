@@ -1,0 +1,33 @@
+terraform {
+  required_providers {
+    databricks = {
+      source = "databricks/databricks"
+    }
+  }
+}
+
+resource "databricks_cluster" "single_node_cluster" {
+  cluster_name            = "Single Node"
+  spark_version           = "10.4.x-scala2.12"
+  node_type_id            = "Standard_DS3_v2"
+  autotermination_minutes = 30
+  is_pinned               = true
+
+  spark_conf = {
+    "spark.databricks.cluster.profile" : "singleNode"
+    "spark.master" : "local[*]"
+  }
+
+  custom_tags = {
+    "ResourceClass" = "SingleNode"
+  }
+}
+
+resource "databricks_secret_scope" "kv" {
+  name = "KVSecretScope"
+
+  keyvault_metadata {
+    resource_id = var.key_vault.vault.id
+    dns_name    = var.key_vault.vault.uri
+  }
+}

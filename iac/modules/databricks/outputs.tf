@@ -3,10 +3,7 @@ output "output" {
     workspace = {
       id   = azurerm_databricks_workspace.workspace.id
       name = azurerm_databricks_workspace.workspace.name
-    }
-    secrets = {
-      "ClusterName"   = "small"
-      "ClusterNameId" = "1234"
+      url  = azurerm_databricks_workspace.workspace.workspace_url
     }
   }
 }

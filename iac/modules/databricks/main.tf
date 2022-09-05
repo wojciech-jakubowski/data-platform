@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    databricks = {
+      source = "databricks/databricks"
+    }
+  }
+}
+
 resource "azurerm_databricks_workspace" "workspace" {
   name                                  = "${var.config.name_prefix}-dbw"
   resource_group_name                   = var.config.resource_group_name
@@ -81,4 +89,3 @@ module "diagnostic_settings" {
   }
   metrics = {}
 }
-
