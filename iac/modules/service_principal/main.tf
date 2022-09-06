@@ -1,5 +1,5 @@
 resource "azuread_application" "application" {
-  display_name = "${var.config.name_prefix}-spn2"
+  display_name = "${var.config.name_prefix}-spn"
   owners       = [var.config.deployer_object_id]
 }
 
