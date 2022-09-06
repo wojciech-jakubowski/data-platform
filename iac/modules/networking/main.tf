@@ -19,7 +19,7 @@ locals {
 }
 
 resource "azurerm_virtual_network" "vnet" {
-  name                = var.config.name_prefix
+  name                = "${var.config.name_prefix}-vnet"
   location            = var.config.location
   resource_group_name = var.config.resource_group_name
   address_space       = ["${local.ip_address_part_env_adjusted}.0/24"]
