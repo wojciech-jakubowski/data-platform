@@ -13,7 +13,7 @@ resource "azurerm_databricks_workspace" "workspace" {
   sku                                   = "premium"
   managed_resource_group_name           = "${var.config.name_prefix}-dbw-rg"
   public_network_access_enabled         = true
-  network_security_group_rules_required = var.networking != null ? "NoAzureDatabricksRules" : null
+  network_security_group_rules_required = var.networking != null ? "AllRules" : null
 
   custom_parameters {
     no_public_ip        = true

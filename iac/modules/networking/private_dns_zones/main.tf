@@ -26,12 +26,12 @@ locals {
     oms : "privatelink.oms.opinsights.azure.com"
     asc : "privatelink.agentsvc.azure-automation.net"
   }
-  synapse_shared_private_dns_zones = {
+  synapse_shared_private_dns_zones =  var.deploy_synapse_zones ? {
     syn : "privatelink.azuresynapse.net"
-  }
-  purview_shared_private_dns_zones = {
+  } : {}
+  purview_shared_private_dns_zones = var.deploy_purview_zones ? {
     pur_acc : "privatelink.purview.azure.com"
-  }
+  } : {}
   databricks_shared_private_dns_zones = var.deploy_databricks_zones ? {
     db : "privatelink.azuredatabricks.net"
   } : {}
