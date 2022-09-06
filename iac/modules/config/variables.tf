@@ -1,43 +1,12 @@
-variable "client_name" {
-  type = string
-}
-
-variable "project_name" {
-  type = string
-}
-
-variable "env" {
-  type = string
-}
-
-variable "location" {
-  type = string
-}
-
-variable "deployer_object_id" {
-  type = string
-}
-
-variable "tenant_id" {
-  type = string
-}
-
-variable "deploy_networking" {
-  default = false
-}
-
-variable "deploy_data_factory" {
-  default = false
-}
-
-variable "deploy_synapse" {
-  default = false
-}
-
-variable "deploy_databricks" {
-  default = false
-}
-
-variable "deploy_purview" {
-  default = false
-}
+variable "client_name" {}
+variable "project_name" {}
+variable "env" {}
+variable "location" {}
+variable "deployer_object_id" {}
+variable "tenant_id" {}
+variable "deployer_ip_address" {}
+variable "deploy_networking" {}
+variable "deploy_data_factory" {}
+variable "deploy_synapse" {}
+variable "deploy_databricks" {}
+variable "deploy_purview" {}

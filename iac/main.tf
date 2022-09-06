@@ -36,15 +36,16 @@ module "config" {
   client_name        = var.client_name
   project_name       = var.project_name
   location           = var.location
+  deployer_ip_address = var.deployer_ip_address
   deployer_object_id = data.azurerm_client_config.current.object_id
   tenant_id          = data.azurerm_client_config.current.tenant_id
   env                = var.env
 
-  deploy_networking   = true
-  deploy_data_factory = false
-  deploy_synapse      = false
-  deploy_databricks   = true
-  deploy_purview      = false
+  deploy_networking   = var.deploy_networking
+  deploy_data_factory = var.deploy_data_factory
+  deploy_synapse      = var.deploy_synapse
+  deploy_databricks   = var.deploy_databricks
+  deploy_purview      = var.deploy_purview
 }
 
 module "resource_group" {

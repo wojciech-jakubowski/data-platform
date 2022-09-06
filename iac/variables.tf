@@ -14,3 +14,32 @@ variable "location" {
   type    = string
   default = "West Europe"
 }
+
+variable "deployer_ip_address" {
+  type    = string
+}
+
+variable "deploy_networking" {
+  type    = bool
+  default = false
+}
+
+variable "deploy_synapse" {
+  type    = bool
+  default = false
+}
+
+variable "deploy_data_factory" {
+  type    = bool
+  default = false
+}
+
+variable "deploy_databricks" {
+  type    = bool
+  default = false
+}
+
+variable "deploy_purview" {
+  type    = bool
+  default = false
+}
