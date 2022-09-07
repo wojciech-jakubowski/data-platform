@@ -2,7 +2,7 @@ locals {
   config = {
     name_prefix          = "${var.client_name}-${var.project_name}-${var.env}"
     dashless_name_prefix = "${var.client_name}${var.project_name}${var.env}"
-    resource_group_name  = "${var.client_name}-${var.project_name}-${var.env}-rg"
+    resource_group_name  = var.existing_rg_name != null ? var.existing_rg_name : "${var.client_name}-${var.project_name}-${var.env}-rg"
     location             = var.location
     deployer_object_id   = var.deployer_object_id
     deployer_ip_address  = var.deployer_ip_address
@@ -16,18 +16,18 @@ locals {
       third_octet  = 0
     }
     tags = {
-      tag_one = "tagOneValue"
-      tag_two = "tagTwoValue"
+      Creator = var.deployer_email
     }
     synapse_aad_admin = {
-      login     = "wojciech.jakubowski@outlook.com"
+      login     = var.deployer_email
       object_id = var.deployer_object_id
     }
 
-    deploy_networking   = var.deploy_networking
-    deploy_data_factory = var.deploy_data_factory
-    deploy_synapse      = var.deploy_synapse
-    deploy_databricks   = var.deploy_databricks
-    deploy_purview      = var.deploy_purview
+    deploy_resource_group = var.existing_rg_name == null
+    deploy_networking     = var.deploy_networking
+    deploy_data_factory   = var.deploy_data_factory
+    deploy_synapse        = var.deploy_synapse
+    deploy_databricks     = var.deploy_databricks
+    deploy_purview        = var.deploy_purview
   }
 }
