@@ -16,11 +16,10 @@ locals {
       third_octet  = 0
     }
     tags = {
-      tag_one = "tagOneValue"
-      tag_two = "tagTwoValue"
+      Creator = var.deployer_email
     }
     synapse_aad_admin = {
-      login     = "wojciech.jakubowski@outlook.com"
+      login     = var.deployer_email
       object_id = var.deployer_object_id
     }
 

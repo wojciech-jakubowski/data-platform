@@ -19,6 +19,10 @@ variable "deployer_ip_address" {
   type = string
 }
 
+variable "deployer_email" {
+  type = string
+}
+
 variable "deploy_networking" {
   type    = bool
   default = false

@@ -1,37 +1,45 @@
 # Commands
 
-Init modules
+## Init
 
-    terraform init --backend-config="container_name=projecttwo" --backend-config="key=dev.tfstate"
+Azure AD auth
 
-Validate
+    terraform init --backend-config="container_name=projecttwo" --backend-config="key=dev.tfstate" 
+
+With access key
+
+    terraform init --backend-config="access_key=xxxyyy" --backend-config="container_name=one" --backend-config="key=dev.tfstate"
+
+## Validate
     
     terraform validate
 
-Plan
+## Plan
 
-    terraform apply --var="client_name=wj" --var="project_name=two" --var="env=dev" --var="deploy_networking=true"  --var="deploy_databricks=true" --var="deployer_ip_address=83.22.134.246"
+    terraform plan --var="client_name=wj" --var="project_name=one" --var="env=dev" --var="deployer_ip_address=83.22.134.246" --var="deployer_email=xxx.yyy@outlook.com" --var="deploy_data_factory=true" --var="deploy_databricks=true"
 
-Apply
+## Apply
 
-    terraform apply --var="client_name=wj" --var="project_name=two" --var="env=dev" --var="deploy_networking=true"  --var="deploy_databricks=true" --var="deployer_ip_address=83.22.134.246"
+    terraform apply --var="client_name=wj" --var="project_name=one" --var="env=dev" --var="deployer_ip_address=83.22.134.246" --var="deployer_email=xxx.yyy@outlook.com" --var="deploy_data_factory=true" --var="deploy_databricks=true"
 
-Apply (all options)    
+## Apply (all options)    
     terraform apply 
-        --var="client_name=wj" 
-        --var="project_name=two"
-        --var="env=dev"
-        --var="deploy_networking=true"
-        --var="deploy_synapse=true"
-        --var="deploy_data_factory=true"
-        --var="deploy_databricks=true"
-        --var="deploy_purview=true"
-        --var="deployer_ip_address=83.22.134.246"
+        --var="client_name=wj" (required)
+        --var="project_name=two" (required)
+        --var="env=dev" (required)
+        --var="deployer_ip_address=83.22.134.246" (required)
+        --var="deployer_email=xxx.yyy@outlook.com" (required)
+        --var="deploy_networking=true" (optional)
+        --var="deploy_synapse=true" (optional)
+        --var="deploy_data_factory=true" (optional)
+        --var="deploy_databricks=true" (optional)
+        --var="deploy_purview=true" (optional)
+        --var="existing_rg_name=some_exisiting_rg" (optional)
 
-Format
+## Format
 
     terraform fmt --recursive
 
-Destroy
+## Destroy
 
-    terraform destroyy --var="client_name=wj" --var="project_name=two" --var="env=dev" --var="deploy_networking=true"  --var="deploy_databricks=true" --var="deployer_ip_address=83.22.134.246"
+    terraform destroy --var="client_name=wj" --var="project_name=one" --var="env=dev" --var="deployer_ip_address=83.22.134.246" --var="deployer_email=xxx.yyy@outlook.com" --var="deploy_data_factory=true" --var="deploy_databricks=true"
