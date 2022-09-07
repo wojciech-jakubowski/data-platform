@@ -26,20 +26,23 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = false
     }
   }
+
+  skip_provider_registration = true
 }
 
 data "azurerm_client_config" "current" {
 }
 
 module "config" {
-  source             = "./modules/config"
-  client_name        = var.client_name
-  project_name       = var.project_name
-  location           = var.location
+  source              = "./modules/config"
+  client_name         = var.client_name
+  project_name        = var.project_name
+  location            = var.location
+  existing_rg_name    = var.existing_rg_name
   deployer_ip_address = var.deployer_ip_address
-  deployer_object_id = data.azurerm_client_config.current.object_id
-  tenant_id          = data.azurerm_client_config.current.tenant_id
-  env                = var.env
+  deployer_object_id  = data.azurerm_client_config.current.object_id
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  env                 = var.env
 
   deploy_networking   = var.deploy_networking
   deploy_data_factory = var.deploy_data_factory
@@ -191,27 +194,27 @@ module "secrets" {
 }
 
 module "role_assingments" {
-  source            = "./modules/role_assignments"
-  config            = module.config.output
-  key_vault         = module.key_vault.output
-  storage           = module.storage.output
-  service_principal = module.service_principal.output
-  data_factory      = module.config.output.deploy_data_factory ? module.data_factory[0].output : null
-  synapse           = module.config.output.deploy_synapse ? module.synapse[0].output : null
-  databricks_workspace        = module.config.output.deploy_databricks ? module.databricks_workspace[0].output : null
-  purview           = module.config.output.deploy_purview ? module.purview[0].output : null
+  source               = "./modules/role_assignments"
+  config               = module.config.output
+  key_vault            = module.key_vault.output
+  storage              = module.storage.output
+  service_principal    = module.service_principal.output
+  data_factory         = module.config.output.deploy_data_factory ? module.data_factory[0].output : null
+  synapse              = module.config.output.deploy_synapse ? module.synapse[0].output : null
+  databricks_workspace = module.config.output.deploy_databricks ? module.databricks_workspace[0].output : null
+  purview              = module.config.output.deploy_purview ? module.purview[0].output : null
 }
 
 module "private_endpoints" {
-  source     = "./modules/private_endpoints"
-  config     = module.config.output
-  key_vault  = module.key_vault.output
-  monitoring = module.monitoring.output
-  storage    = module.storage.output
-  networking = module.config.output.deploy_networking ? module.networking[0].output : null
-  synapse    = module.config.output.deploy_synapse ? module.synapse[0].output : null
+  source               = "./modules/private_endpoints"
+  config               = module.config.output
+  key_vault            = module.key_vault.output
+  monitoring           = module.monitoring.output
+  storage              = module.storage.output
+  networking           = module.config.output.deploy_networking ? module.networking[0].output : null
+  synapse              = module.config.output.deploy_synapse ? module.synapse[0].output : null
   databricks_workspace = module.config.output.deploy_databricks ? module.databricks_workspace[0].output : null
-  purview    = module.config.output.deploy_purview ? module.purview[0].output : null
+  purview              = module.config.output.deploy_purview ? module.purview[0].output : null
 
   depends_on = [
     module.resource_group,

@@ -16,7 +16,7 @@ variable "location" {
 }
 
 variable "deployer_ip_address" {
-  type    = string
+  type = string
 }
 
 variable "deploy_networking" {
@@ -42,4 +42,9 @@ variable "deploy_databricks" {
 variable "deploy_purview" {
   type    = bool
   default = false
+}
+
+variable "existing_rg_name" {
+  type    = string
+  default = null
 }
