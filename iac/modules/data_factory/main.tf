@@ -4,6 +4,7 @@ resource "azurerm_data_factory" "data_factory" {
   resource_group_name             = var.config.resource_group_name
   managed_virtual_network_enabled = true
   public_network_enabled          = false
+  tags                            = var.config.tags
 
   global_parameter {
     name  = "env"
