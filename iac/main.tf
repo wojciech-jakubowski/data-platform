@@ -160,6 +160,7 @@ module "databricks_config" {
   }
 
   depends_on = [
+    module.key_vault,
     module.databricks_workspace[0]
   ]
 }
