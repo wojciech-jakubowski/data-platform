@@ -32,6 +32,10 @@ resource "databricks_cluster" "small_cluster" {
   num_workers             = 2
 }
 
+resource "time_sleep" "wait_for_kvdns" {
+  create_duration = "60s"
+}
+
 resource "databricks_secret_scope" "kv" {
   name = "KVSecretScope"
 
@@ -39,4 +43,8 @@ resource "databricks_secret_scope" "kv" {
     resource_id = var.key_vault.vault.id
     dns_name    = var.key_vault.vault.uri
   }
+
+  depends_on = [
+    time_sleep.wait_for_kvdns
+  ]
 }

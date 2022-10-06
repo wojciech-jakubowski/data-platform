@@ -14,11 +14,11 @@ resource "azurerm_storage_account" "sa" {
   }
 
 
-  network_rules {
-    bypass         = ["AzureServices"]
-    default_action = "Deny"
-    ip_rules       = [var.config.deployer_ip_address]
-  }
+  # network_rules {
+  #   bypass         = ["AzureServices"]
+  #   default_action = "Deny"
+  #   ip_rules       = [var.config.deployer_ip_address]
+  # }
 }
 
 resource "azurerm_storage_container" "container" {
@@ -43,4 +43,15 @@ module "diagnostic_settings" {
     "Capacity"    = true
     "Transaction" = true
   }
+}
+
+resource "azurerm_storage_account_network_rules" "sa_network_rules" {
+  storage_account_id = azurerm_storage_account.sa.id
+
+  default_action             = "Deny"
+  bypass         = ["AzureServices"]
+
+  depends_on = [
+    azurerm_storage_container.container
+  ]
 }

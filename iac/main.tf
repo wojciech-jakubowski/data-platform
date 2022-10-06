@@ -1,8 +1,8 @@
 terraform {
-  backend "azurerm" {
-    resource_group_name  = "wj-common-rg"
-    storage_account_name = "wjcommontfstatesa"
-  }
+  # backend "azurerm" {
+  #   resource_group_name  = "wj-common-rg"
+  #   storage_account_name = "wjcommontfstatesa"
+  # }
 
   required_providers {
     azurerm = {
@@ -138,7 +138,8 @@ module "databricks_workspace" {
   networking = module.config.output.deploy_networking ? module.networking[0].output : null
 
   depends_on = [
-    module.resource_group
+    module.resource_group,
+    module.key_vault,
   ]
 
   count = module.config.output.deploy_databricks ? 1 : 0
@@ -158,11 +159,6 @@ module "databricks_config" {
   providers = {
     databricks = databricks.databricks_config
   }
-
-  depends_on = [
-    module.key_vault,
-    module.databricks_workspace[0]
-  ]
 }
 
 module "purview" {
