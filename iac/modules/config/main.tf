@@ -23,6 +23,10 @@ locals {
       object_id = var.deployer_object_id
     }
 
+    secrets = {
+      "TenantId" = var.tenant_id
+    }
+
     deploy_resource_group = var.existing_rg_name == null
     deploy_networking     = var.deploy_networking
     deploy_data_factory   = var.deploy_data_factory

@@ -159,6 +159,10 @@ module "databricks_config" {
   providers = {
     databricks = databricks.databricks_config
   }
+
+  depends_on = [
+    module.databricks_workspace
+  ]
 }
 
 module "purview" {
@@ -178,6 +182,7 @@ module "secrets" {
   source    = "./modules/secrets"
   key_vault = module.key_vault.output
   secrets = merge(
+    module.config.output.secrets,
     module.service_principal.output.secrets,
     module.monitoring.output.secrets,
     module.storage.output.secrets,

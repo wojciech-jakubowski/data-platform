@@ -34,6 +34,10 @@ resource "databricks_cluster" "small_cluster" {
 
 resource "time_sleep" "wait_for_kvdns" {
   create_duration = "60s"
+
+  depends_on = [
+    databricks_cluster.small_cluster
+  ]
 }
 
 resource "databricks_secret_scope" "kv" {
