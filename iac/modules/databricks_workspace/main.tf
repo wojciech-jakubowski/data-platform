@@ -86,6 +86,8 @@ module "diagnostic_settings" {
     "ssh"                  = true
     "unityCatalog"         = true
     "workspace"            = true
+    "gitCredentials"       = true
+    "webTerminal"          = true
   }
   metrics = {}
 }

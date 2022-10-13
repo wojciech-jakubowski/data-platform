@@ -4,6 +4,7 @@ resource "azurerm_purview_account" "purview" {
   managed_resource_group_name = "${var.config.client_name}-${var.config.project_name}-${var.config.env}-prv-rg"
   location                    = var.config.location
   public_network_enabled      = true
+  tags                        = var.config.tags
 
   identity {
     type = "SystemAssigned"

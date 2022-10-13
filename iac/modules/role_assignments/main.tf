@@ -26,6 +26,12 @@ resource "azurerm_role_assignment" "data_spn_on_storage" {
   principal_id         = var.service_principal.spn.object_id
 }
 
+resource "azurerm_role_assignment" "deployer_on_storage" {
+  scope                = var.storage.data_lake.id
+  role_definition_name = "Storage Blob Data Owner"
+  principal_id         = var.config.deployer_object_id
+}
+
 
 # databricks
 resource "azurerm_role_assignment" "adf_on_databricks" {

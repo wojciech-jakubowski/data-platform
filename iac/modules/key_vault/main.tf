@@ -9,8 +9,8 @@ resource "azurerm_key_vault" "key_vault" {
 
   network_acls {
     bypass         = "AzureServices"
-    default_action = "Deny"
-    ip_rules       = [var.config.deployer_ip_address]
+    default_action = var.config.deploy_networking ? "Deny" : "Allow"
+    ip_rules       = var.config.deploy_networking ? [var.config.deployer_ip_address] : []
   }
 }
 

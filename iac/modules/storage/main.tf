@@ -4,5 +4,5 @@ module "dl" {
   monitoring     = var.monitoring
   name           = "dl"
   is_hns_enabled = true
-  containers     = ["synapse", "raw", "conformed", "prepared"]
+  containers     = ["synapse", "raw", "processed", "prepared"]
 }
